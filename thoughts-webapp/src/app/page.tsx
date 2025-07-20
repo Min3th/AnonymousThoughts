@@ -16,6 +16,11 @@ export default function Home() {
     "rusof hdfieu hum i give ghut",
     "shetty fdfs is dfds",
   ];
+
+  const getRandomLightColor = () => {
+    const hue = Math.floor(Math.random() * 360);
+    return `hsl(${hue}, 100%, 85%)`;
+  };
   return (
     <>
       <ResponsiveAppBar />
@@ -30,7 +35,9 @@ export default function Home() {
         <Box sx={{ width: "100%" }}>
           <Masonry columns={3} spacing={10}>
             {content.map((text, index) => (
-              <ThoughtBox key={index}>{text}</ThoughtBox>
+              <ThoughtBox key={index} backgroundColor={getRandomLightColor()}>
+                {text}
+              </ThoughtBox>
             ))}
           </Masonry>
         </Box>

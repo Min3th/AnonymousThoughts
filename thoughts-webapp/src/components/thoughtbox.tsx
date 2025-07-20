@@ -1,19 +1,18 @@
-// components/ui/MyBox.tsx
-import { Box, BoxProps } from "@mui/material";
 import { ReactNode } from "react";
 import MyBox from "./box";
 
 type ThoughtBoxProps = {
   children: ReactNode;
+  backgroundColor?: string;
 };
 
-const ThoughtBox = ({ children }: ThoughtBoxProps) => {
+const ThoughtBox = ({ children, backgroundColor }: ThoughtBoxProps) => {
   return (
     <MyBox
       sx={{
         width: "200px",
         height: "100px",
-        backgroundColor: "#008000",
+        backgroundColor: backgroundColor,
         borderRadius: 2,
       }}
     >
