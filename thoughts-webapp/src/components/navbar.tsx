@@ -12,6 +12,7 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
+import MyBox from "./box";
 
 const settings = ["Love", "Sad", "Happiness", "Bliss"];
 
@@ -56,7 +57,7 @@ function ResponsiveAppBar() {
             Anonymous Thoughts
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          <MyBox sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -67,7 +68,7 @@ function ResponsiveAppBar() {
             >
               <MenuIcon />
             </IconButton>
-          </Box>
+          </MyBox>
           <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
           <Typography
             variant="h5"
@@ -87,8 +88,8 @@ function ResponsiveAppBar() {
           >
             LOGO
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}></Box>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          <MyBox sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}></MyBox>
+          <MyBox sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <Button onClick={handleCloseNavMenu} sx={{ my: 2, color: "white", display: "block" }}>
               POST
             </Button>
@@ -117,7 +118,7 @@ function ResponsiveAppBar() {
                 </MenuItem>
               ))}
             </Menu>
-          </Box>
+          </MyBox>
         </Toolbar>
       </Container>
     </AppBar>
