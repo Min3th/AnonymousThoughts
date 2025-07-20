@@ -27,47 +27,19 @@ export default function Home() {
   return (
     <MyBox sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
       <ResponsiveAppBar />
-      {/* <MyBox
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          width: "100%",
-          padding: 2,
-        }}
-      >
-        <Box sx={{ width: "100%", backgroundColor: "#800080" }}>
-          <Grid container spacing={4}>
-            {content.map((text, index) => (
-              <Grid item xs={12} sm={6} md={4} key={index}>
-                <ThoughtBox backgroundColor={getRandomLightColor()}>{text}</ThoughtBox>
-              </Grid>
-            ))}
-          </Grid>
-        </Box> */}
       <MyBox
         sx={{
           display: "flex",
           justifyContent: "center",
           width: "100%",
           padding: 2,
-          backgroundColor: "#800080",
         }}
       >
         <Masonry columns={3} spacing={2}>
-          {heights.map((height, index) => (
-            <Box
-              key={index}
-              sx={{
-                height,
-                backgroundColor: getRandomLightColor(),
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: 2,
-              }}
-            >
-              {index + 1}
-            </Box>
+          {content.map((text, index) => (
+            <ThoughtBox backgroundColor={getRandomLightColor()} height={heights[index % heights.length]}>
+              {text}
+            </ThoughtBox>
           ))}
         </Masonry>
       </MyBox>
