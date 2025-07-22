@@ -4,6 +4,9 @@ import "./globals.css";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import ResponsiveAppBar from "@/components/navbar";
 import Footer from "@/components/footer";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import ThemeRegistry from "./ThemeRegistry";
 
 export const metadata: Metadata = {
   title: "Anonymous Thoughts",
@@ -19,9 +22,19 @@ export default function RootLayout({
     <html lang="en">
       <body className={` antialiased`}>
         <AppRouterCacheProvider>
-          <ResponsiveAppBar />
-          {children}
-          <Footer />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              minHeight: "100vh",
+            }}
+          >
+            {" "}
+            <ThemeRegistry>
+              {children}
+              <Footer />
+            </ThemeRegistry>
+          </div>
         </AppRouterCacheProvider>
       </body>
     </html>

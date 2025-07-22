@@ -14,10 +14,17 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import MyBox from "./box";
 import Link from "next/link";
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
 
 const settings = ["Love", "Sad", "Happiness", "Bliss"];
 
-function ResponsiveAppBar() {
+type ResponsiveAppBarProps = {
+  toggleTheme: () => void;
+  mode: "light" | "dark";
+};
+
+function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -37,7 +44,7 @@ function ResponsiveAppBar() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ backgroundColor: "#1a1a2e", color: "#ffffff" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -122,6 +129,9 @@ function ResponsiveAppBar() {
                 </MenuItem>
               ))}
             </Menu>
+            <IconButton onClick={toggleTheme} color="inherit">
+              {mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
+            </IconButton>
           </MyBox>
         </Toolbar>
       </Container>
