@@ -11,10 +11,16 @@ const ThoughtBox = ({ children, backgroundColor, height }: ThoughtBoxProps) => {
   return (
     <MyBox
       sx={{
-        width: "200px",
-        height: height,
-        backgroundColor: backgroundColor,
+        backgroundColor,
+        height,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        textAlign: "center",
         borderRadius: 2,
+        p: 2,
+        boxShadow: 2,
+        width: "100%",
       }}
     >
       {children}
