@@ -26,7 +26,6 @@ export default function Home() {
   };
   return (
     <MyBox sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-      <ResponsiveAppBar />
       <MyBox
         sx={{
           display: "flex",
