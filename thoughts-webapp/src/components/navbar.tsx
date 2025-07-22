@@ -13,6 +13,7 @@ import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import MyBox from "./box";
+import Link from "next/link";
 
 const settings = ["Love", "Sad", "Happiness", "Bliss"];
 
@@ -90,12 +91,15 @@ function ResponsiveAppBar() {
           </Typography>
           <MyBox sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}></MyBox>
           <MyBox sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            <Button onClick={handleCloseNavMenu} sx={{ my: 2, color: "white", display: "block" }}>
-              POST
-            </Button>
-            <Button onClick={handleOpenUserMenu} sx={{ p: 0, color: "#000000" }}>
-              Categories
-            </Button>
+            <Link href="/post" passHref style={{ textDecoration: "none" }}>
+              <Button component="a" sx={{ my: 2, color: "white", display: "block" }}>
+                POST
+              </Button>
+            </Link>
+            <Link href="/about" passHref style={{ textDecoration: "none" }}>
+              <Button sx={{ my: 2, color: "white", display: "block" }}>ABOUT</Button>
+            </Link>
+            <Button sx={{ p: 0, color: "#000000" }}>Categories</Button>
             <Menu
               sx={{ mt: "45px" }}
               id="menu-appbar"
