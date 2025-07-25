@@ -8,6 +8,7 @@ const ThoughtsPage = () => {
   const { loading, error, addThought } = useThoughts();
 
   const handleSubmit = async (e: React.FormEvent) => {
+    console.log("I am here");
     e.preventDefault();
     alert(`Topic: ${topic}\nContent: ${content}`);
     await addThought({
