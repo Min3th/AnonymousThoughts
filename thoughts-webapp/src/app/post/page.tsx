@@ -1,13 +1,19 @@
 "use client";
 import { useState } from "react";
+import useThoughts from "../requests/api";
 
 const ThoughtsPage = () => {
   const [topic, setTopic] = useState("");
   const [content, setContent] = useState("");
+  const { loading, error, addThought } = useThoughts();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     alert(`Topic: ${topic}\nContent: ${content}`);
+    await addThought({
+      topic,
+      content,
+    }); // Call the addThought function from useThoughts
     // You can replace this with an API call
   };
 
@@ -38,7 +44,11 @@ const ThoughtsPage = () => {
           />
         </div>
 
-        <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+        <button
+          onSubmit={handleSubmit}
+          type="submit"
+          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+        >
           Submit
         </button>
       </form>

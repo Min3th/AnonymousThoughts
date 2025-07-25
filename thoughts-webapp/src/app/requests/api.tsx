@@ -3,82 +3,55 @@
 import { useState, useEffect } from "react";
 
 type Thought = {
-    _id: string;
-    topic: string;
-    content: string;    
-}
+  //   _id: string;
+  topic: string;
+  content: string;
+};
 
 export default function useThoughts() {
-    const [thoughts, setThoughts] = useState<Thought[]>([]);
-    const [topic, setTopic] = useState<string>("");
-    const [content, setContent] = useState<string>("");
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        fetchThoughts();
-    }, []);
-
-    const fetchThoughts = async () => {
-        try {
-            const response = await fetch("/api/thoughts");
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            const data = await response.json();
-            setThoughts(data);
-        } catch (err) {
+  const fetchThoughts = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/api/thoughts");
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      return data; // Assuming the API returns an array of thoughts
+    } catch (err) {
       console.error("Error fetching thoughts:", err);
     }
+  };
 
-    const addThought = async () => {
-        if (!topic || !content) {
-            setError("Topic and content cannot be empty");
-            return;
-        }
-
-        try {
-            const response = await fetch("/api/thoughts", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ topic, content }),
-            });
-
-            if (!response.ok) {
-                throw new Error("Failed to add thought");
-            }
-
-            const newThought = await response.json();
-            setThoughts((prevThoughts) => [...prevThoughts, newThought]);
-            setTopic("");
-            setContent("");
-            setError(null);
-        } catch (err) {
-            console.error("Error adding thoughts:", err);
-        }
+  const addThought = async (thought: Thought) => {
+    if (!thought.topic || !thought.content) {
+      setError("Topic and content cannot be empty");
+      return;
     }
 
+    try {
+      const response = await fetch("http://localhost:8080/api/thoughts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ topic: thought.topic, content: thought.content }),
+      });
 
-    useEffect(() => {
-        async function fetchThoughts() {
-            try {
-                const response = await fetch("/api/thoughts");
-                if (!response.ok) {
-                    throw new Error("Network response was not ok");
-                }
-                const data = await response.json();
-                setThoughts(data);
-            } catch (err) {
-                setError(err instanceof Error ? err.message : "An error occurred");
-            } finally {
-                setLoading(false);
-            }
-        }
+      if (!response.ok) {
+        throw new Error("Failed to add thought");
+      }
+      setError(null);
+    } catch (err) {
+      console.error("Error adding thoughts:", err);
+    }
+  };
 
-        fetchThoughts();
-    }, []);
+  useEffect(() => {
+    fetchThoughts();
+  }, []);
 
-    return { thoughts, loading, error };
+  return { loading, error, addThought, fetchThoughts };
 }
