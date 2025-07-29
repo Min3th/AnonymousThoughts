@@ -1,28 +1,16 @@
-// index.js
-const express = require("express");
-const connectDB = require("./db");
-const Thought = require("./thoughts");
-const cors = require("cors");
-const generateUniqueCode = require("./utils/generateCode");
+const Thought = require("../models/thoughts");
+const generateUniqueCode = require("../utils/generateCode");
 
-const app = express();
-const port = 8080;
-
-connectDB(); // Connect to MongoDB
-
-app.use(cors());
-app.use(express.json());
-
-app.get("/api/thoughts", async (req, res) => {
+exports.getThoughts = async (req, res) => {
   try {
     const thoughts = await Thought.find();
     res.json(thoughts);
   } catch (err) {
     res.status(500).json({ error: "Server error" });
   }
-});
+};
 
-app.post("/api/thoughts", async (req, res) => {
+exports.createThought = async (req, res) => {
   try {
     const { topic, content, category } = req.body;
     const uniqueCode = generateUniqueCode();
@@ -38,8 +26,4 @@ app.post("/api/thoughts", async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: "Server error" });
   }
-});
-
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
+};
