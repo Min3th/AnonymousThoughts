@@ -43,6 +43,7 @@ export default function useThoughts() {
       if (!response.ok) {
         throw new Error("Failed to add thought");
       }
+      console.log("response: ", response);
       setError(null);
     } catch (err) {
       console.error("Error adding thoughts:", err);

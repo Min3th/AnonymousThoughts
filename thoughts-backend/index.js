@@ -3,6 +3,7 @@ const express = require("express");
 const connectDB = require("./db");
 const Thought = require("./thoughts");
 const cors = require("cors");
+const generateUniqueCode = require("./utils/generateCode");
 
 const app = express();
 const port = 8080;
@@ -24,12 +25,13 @@ app.get("/api/thoughts", async (req, res) => {
 app.post("/api/thoughts", async (req, res) => {
   try {
     const { topic, content } = req.body;
+    const uniqueCode = generateUniqueCode();
 
     if (!topic || !content) {
       return res.status(400).json({ error: "Topic and content are required" });
     }
 
-    const newThought = new Thought({ topic, content });
+    const newThought = new Thought({ topic, content, uniqueCode });
     await newThought.save();
 
     res.status(201).json(newThought);

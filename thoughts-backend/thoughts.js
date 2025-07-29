@@ -6,6 +6,7 @@ const ThoughtSchema = new mongoose.Schema({
     required: true,
   },
   content: { type: String, required: true },
+  uniqueCode: { type: String, unique: true },
 });
 
 module.exports = mongoose.model("Thought", ThoughtSchema);
