@@ -2,12 +2,13 @@
 import { useState } from "react";
 import useThoughts from "../requests/api";
 import * as Yup from "yup";
-import { Box, Button, Container, TextField, Typography, Paper } from "@mui/material";
+import { Box, Button, Container, TextField, Typography, Paper, MenuItem } from "@mui/material";
 import { useFormik } from "formik";
 
 const validationSchema = Yup.object().shape({
   topic: Yup.string().required("Topic is required"),
   content: Yup.string().required("Content is required"),
+  category: Yup.string().required("Category is required"),
 });
 
 const ThoughtsPage = () => {
@@ -15,10 +16,13 @@ const ThoughtsPage = () => {
   const [content, setContent] = useState("");
   const { loading, error, addThought } = useThoughts();
 
+  const categories = ["love", "sad", "happy", "bliss", "neutral"];
+
   const formik = useFormik({
     initialValues: {
       topic: "",
       content: "",
+      category: "",
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -71,6 +75,25 @@ const ThoughtsPage = () => {
               helperText={formik.touched.content && formik.errors.content}
               margin="normal"
             />
+
+            <TextField
+              select
+              fullWidth
+              label="Category"
+              name="category"
+              value={formik.values.category}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.category && Boolean(formik.errors.category)}
+              helperText={formik.touched.category && formik.errors.category}
+              margin="normal"
+            >
+              {categories.map((option) => (
+                <MenuItem key={option} value={option}>
+                  {option.charAt(0).toUpperCase() + option.slice(1)}
+                </MenuItem>
+              ))}
+            </TextField>
 
             <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
               Submit

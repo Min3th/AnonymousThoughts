@@ -31,7 +31,7 @@ app.post("/api/thoughts", async (req, res) => {
       return res.status(400).json({ error: "Topic and content are required" });
     }
 
-    const newThought = new Thought({ topic, content, uniqueCode });
+    const newThought = new Thought({ topic, content, uniqueCode, category });
     await newThought.save();
 
     res.status(201).json(newThought);
