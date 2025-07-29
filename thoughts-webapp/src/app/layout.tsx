@@ -22,19 +22,19 @@ export default function RootLayout({
     <html lang="en">
       <body className={` antialiased`}>
         <AppRouterCacheProvider>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              minHeight: "100vh",
-            }}
-          >
-            {" "}
-            <ThemeRegistry>
-              {children}
+          <ThemeRegistry>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                minHeight: "100vh",
+              }}
+            >
+              {" "}
+              <div style={{ flex: 1 }}>{children}</div>
               <Footer />
-            </ThemeRegistry>
-          </div>
+            </div>
+          </ThemeRegistry>
         </AppRouterCacheProvider>
       </body>
     </html>
