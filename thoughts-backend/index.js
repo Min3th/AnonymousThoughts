@@ -24,7 +24,7 @@ app.get("/api/thoughts", async (req, res) => {
 
 app.post("/api/thoughts", async (req, res) => {
   try {
-    const { topic, content } = req.body;
+    const { topic, content, category } = req.body;
     const uniqueCode = generateUniqueCode();
 
     if (!topic || !content) {

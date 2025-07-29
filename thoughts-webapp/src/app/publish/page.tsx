@@ -16,7 +16,7 @@ const ThoughtsPage = () => {
   const [content, setContent] = useState("");
   const { loading, error, addThought } = useThoughts();
 
-  const categories = ["love", "sad", "happy", "bliss", "neutral"];
+  const categories = ["Love", "Sad", "Happy", "Bliss", "Neutral"];
 
   const formik = useFormik({
     initialValues: {
@@ -29,17 +29,6 @@ const ThoughtsPage = () => {
       await addThought(values);
     },
   });
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    console.log("I am here");
-    e.preventDefault();
-    alert(`Topic: ${topic}\nContent: ${content}`);
-    await addThought({
-      topic,
-      content,
-    }); // Call the addThought function from useThoughts
-    // You can replace this with an API call
-  };
 
   return (
     <Container maxWidth="sm">

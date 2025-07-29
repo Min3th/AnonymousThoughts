@@ -9,7 +9,7 @@ const ThoughtSchema = new mongoose.Schema({
   uniqueCode: { type: String, unique: true },
   category: {
     type: String,
-    enum: ["love", "sad", "happy", "bliss", "neutral"],
+    enum: ["Love", "Sad", "Happy", "Bliss", "Neutral"],
     required: true,
   },
 });

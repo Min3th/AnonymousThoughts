@@ -7,6 +7,7 @@ type Thought = {
   //   _id: string;
   topic: string;
   content: string;
+  category: string;
 };
 
 export default function useThoughts() {
@@ -39,7 +40,7 @@ export default function useThoughts() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ topic: thought.topic, content: thought.content }),
+        body: JSON.stringify({ topic: thought.topic, content: thought.content, category: thought.category }),
       });
 
       if (!response.ok) {

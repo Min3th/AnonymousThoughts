@@ -100,8 +100,8 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
           </Typography>
           <MyBox sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}></MyBox>
           <MyBox sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            <Link href="/post" passHref style={{ textDecoration: "none" }}>
-              <Button sx={{ my: 2, color: "white", display: "block" }}>POST</Button>
+            <Link href="/publish" passHref style={{ textDecoration: "none" }}>
+              <Button sx={{ my: 2, color: "white", display: "block" }}>PUBLISH</Button>
             </Link>
             <Link href="/about" passHref style={{ textDecoration: "none" }}>
               <Button sx={{ my: 2, color: "white", display: "block" }}>ABOUT</Button>
