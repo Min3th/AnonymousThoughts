@@ -47,23 +47,25 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
     <AppBar position="static" sx={{ backgroundColor: "#1a1a2e", color: "#ffffff" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            Anonymous Thoughts
-          </Typography>
+          <Link href="/" passHref style={{ textDecoration: "none" }}>
+            <Typography
+              variant="h6"
+              noWrap
+              component="a"
+              href="#app-bar-with-responsive-menu"
+              sx={{
+                mr: 2,
+                display: { xs: "none", md: "flex" },
+                fontFamily: "monospace",
+                fontWeight: 700,
+                letterSpacing: ".3rem",
+                color: "white",
+                textDecoration: "none",
+              }}
+            >
+              Anonymous Thoughts
+            </Typography>
+          </Link>
 
           <MyBox sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton

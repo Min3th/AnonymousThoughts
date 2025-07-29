@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useSnackbar } from "../utils/snackbar";
 
 type Thought = {
   //   _id: string;
@@ -9,6 +10,7 @@ type Thought = {
 };
 
 export default function useThoughts() {
+  const snackbar = useSnackbar();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -43,7 +45,8 @@ export default function useThoughts() {
       if (!response.ok) {
         throw new Error("Failed to add thought");
       }
-      console.log("response: ", response);
+      snackbar.success("Thought added successfully, your id is: " + (await response.json()).uniqueCode);
+      return response.json();
       setError(null);
     } catch (err) {
       console.error("Error adding thoughts:", err);

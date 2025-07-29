@@ -4,6 +4,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { useMemo, useState } from "react";
 import ResponsiveAppBar from "../components/navbar";
+import { SnackbarProvider } from "./utils/snackbar";
 
 export default function ThemeRegistry({ children }: { children: React.ReactNode }) {
   const [mode, setMode] = useState<"light" | "dark">("dark");
@@ -33,9 +34,11 @@ export default function ThemeRegistry({ children }: { children: React.ReactNode 
 
   return (
     <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <ResponsiveAppBar toggleTheme={toggleTheme} mode={mode} />
-      <main style={{ flex: 1 }}>{children}</main>
+      <SnackbarProvider>
+        <CssBaseline />
+        <ResponsiveAppBar toggleTheme={toggleTheme} mode={mode} />
+        <main style={{ flex: 1 }}>{children}</main>
+      </SnackbarProvider>
     </ThemeProvider>
   );
 }
