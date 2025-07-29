@@ -32,7 +32,7 @@ const ThoughtsPage = () => {
 
   return (
     <Container maxWidth="sm">
-      <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh" bgcolor="#f3f4f6">
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
         <Paper elevation={3} sx={{ p: 4, width: "100%" }}>
           <Typography variant="h5" fontWeight="bold" gutterBottom>
             Submit a Thought
