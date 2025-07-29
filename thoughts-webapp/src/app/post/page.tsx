@@ -1,11 +1,30 @@
 "use client";
 import { useState } from "react";
 import useThoughts from "../requests/api";
+import * as Yup from "yup";
+import { Box, Button, Container, TextField, Typography, Paper } from "@mui/material";
+import { useFormik } from "formik";
+
+const validationSchema = Yup.object().shape({
+  topic: Yup.string().required("Topic is required"),
+  content: Yup.string().required("Content is required"),
+});
 
 const ThoughtsPage = () => {
   const [topic, setTopic] = useState("");
   const [content, setContent] = useState("");
   const { loading, error, addThought } = useThoughts();
+
+  const formik = useFormik({
+    initialValues: {
+      topic: "",
+      content: "",
+    },
+    validationSchema,
+    onSubmit: async (values) => {
+      await addThought(values);
+    },
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     console.log("I am here");
@@ -19,41 +38,47 @@ const ThoughtsPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6">
-      <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-md w-full max-w-md space-y-4">
-        <h2 className="text-xl font-bold">Submit a Thought</h2>
+    <Container maxWidth="sm">
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh" bgcolor="#f3f4f6">
+        <Paper elevation={3} sx={{ p: 4, width: "100%" }}>
+          <Typography variant="h5" fontWeight="bold" gutterBottom>
+            Submit a Thought
+          </Typography>
 
-        <div>
-          <label className="block mb-1 font-medium">Thought Topic</label>
-          <input
-            type="text"
-            value={topic}
-            onChange={(e) => setTopic(e.target.value)}
-            className="w-full px-3 py-2 border rounded"
-            required
-          />
-        </div>
+          <form onSubmit={formik.handleSubmit}>
+            <TextField
+              fullWidth
+              label="Thought Topic"
+              name="topic"
+              value={formik.values.topic}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.topic && Boolean(formik.errors.topic)}
+              helperText={formik.touched.topic && formik.errors.topic}
+              margin="normal"
+            />
 
-        <div>
-          <label className="block mb-1 font-medium">Thought Content</label>
-          <textarea
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            className="w-full px-3 py-2 border rounded"
-            rows={5}
-            required
-          />
-        </div>
+            <TextField
+              fullWidth
+              label="Thought Content"
+              name="content"
+              multiline
+              rows={5}
+              value={formik.values.content}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.content && Boolean(formik.errors.content)}
+              helperText={formik.touched.content && formik.errors.content}
+              margin="normal"
+            />
 
-        <button
-          onSubmit={handleSubmit}
-          type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
-        >
-          Submit
-        </button>
-      </form>
-    </div>
+            <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
+              Submit
+            </Button>
+          </form>
+        </Paper>
+      </Box>
+    </Container>
   );
 };
 
