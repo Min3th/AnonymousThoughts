@@ -65,24 +65,31 @@ export default function Home() {
           maxWidth: 1200,
         }}
       >
-        <NoSSR_Masonry // remounts on theme or route change
-          columns={3}
-          spacing={2}
-          key={pathname}
+        <MyBox
+          sx={{
+            columnCount: { xs: 1, sm: 2, md: 3 },
+            columnGap: 2, // spacing between columns
+            width: "100%",
+            maxWidth: 1200,
+          }}
         >
           {thoughtContent.map((thought, index) => (
-            <ThoughtBox
+            <MyBox
               key={thought._id}
-              backgroundColor={getRandomLightColor()}
-              height={heights[index % heights.length]}
+              sx={{
+                breakInside: "avoid",
+                mb: 2,
+              }}
             >
-              <div>
-                <strong>{thought.topic}</strong>
-                <p>{thought.content}</p>
-              </div>
-            </ThoughtBox>
+              <ThoughtBox backgroundColor={getRandomLightColor()} height={heights[index % heights.length]}>
+                <div>
+                  <strong>{thought.topic}</strong>
+                  <p>{thought.content}</p>
+                </div>
+              </ThoughtBox>
+            </MyBox>
           ))}
-        </NoSSR_Masonry>
+        </MyBox>
       </MyBox>
     </MyBox>
   );
