@@ -1,39 +1,50 @@
+"use client";
+
 import React from "react";
+import { useTheme } from "@mui/material/styles";
+import { Box, Typography, Link, Divider } from "@mui/material";
 
 const Footer: React.FC = () => {
+  const theme = useTheme();
+  const currentMode = theme.palette.mode;
+
   return (
-    <footer style={footerStyle}>
-      <div style={{ textAlign: "center" }}>
-        <p>&copy; {new Date().getFullYear()} MyApp. All rights reserved.</p>
-        <p>
-          <a href="/about" style={linkStyle}>
+    <Box
+      component="footer"
+      sx={{
+        padding: 2,
+        backgroundColor: currentMode === "light" ? "#f1f1f1" : theme.palette.background.paper,
+        borderTop: `1px solid ${theme.palette.divider}`,
+        mt: "auto",
+      }}
+    >
+      <Box textAlign="center">
+        <Typography variant="body2" color="textSecondary" gutterBottom>
+          &copy; {new Date().getFullYear()} MyApp. All rights reserved.
+        </Typography>
+
+        <Typography variant="body2" color="textSecondary">
+          <Link href="/about" underline="hover" sx={{ mx: 1, cursor: "pointer" }}>
             About
-          </a>{" "}
-          |{" "}
-          <a href="/contact" style={linkStyle}>
+          </Link>
+          |
+          <Link href="/contact" underline="hover" sx={{ mx: 1, cursor: "pointer" }}>
             Contact
-          </a>{" "}
-          |{" "}
-          <a href="https://github.com/myapp" target="_blank" rel="noopener noreferrer" style={linkStyle}>
+          </Link>
+          |
+          <Link
+            href="https://github.com/myapp"
+            target="_blank"
+            rel="noopener noreferrer"
+            underline="hover"
+            sx={{ mx: 1, cursor: "pointer" }}
+          >
             GitHub
-          </a>
-        </p>
-      </div>
-    </footer>
+          </Link>
+        </Typography>
+      </Box>
+    </Box>
   );
-};
-
-const footerStyle: React.CSSProperties = {
-  padding: "1rem",
-  backgroundColor: "#f1f1f1",
-  borderTop: "1px solid #ddd",
-  marginTop: "auto",
-};
-
-const linkStyle: React.CSSProperties = {
-  color: "#0070f3",
-  textDecoration: "none",
-  margin: "0 0.5rem",
 };
 
 export default Footer;

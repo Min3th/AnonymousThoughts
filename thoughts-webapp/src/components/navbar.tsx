@@ -47,7 +47,7 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
               href="#app-bar-with-responsive-menu"
               sx={{
                 mr: 2,
-                display: { xs: "none", md: "flex" },
+                display: "flex",
                 fontFamily: "monospace",
                 fontWeight: 700,
                 letterSpacing: ".3rem",
@@ -58,28 +58,7 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
               Anonymous Thoughts
             </Typography>
           </Link>
-
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            LOGO
-          </Typography>
-          <MyBox sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}></MyBox>
-          <MyBox sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          <MyBox sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
             <Link href="/publish" passHref style={{ textDecoration: "none" }}>
               <Button sx={{ my: 2, color: "white", display: "block" }}>PUBLISH</Button>
             </Link>
@@ -90,7 +69,14 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
               Categories
             </Button>
             <Menu
-              sx={{ mt: "45px" }}
+              sx={{
+                mt: "45px",
+                "& .MuiPaper-root": {
+                  backgroundColor: "#1a1a2e", // match AppBar background
+                  color: "#ffffff",
+                  minWidth: 160, // optional: ensures fixed width
+                },
+              }}
               id="categories"
               anchorEl={anchorElCategories}
               anchorOrigin={{
@@ -113,6 +99,8 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
                 </MenuItem>
               ))}
             </Menu>
+          </MyBox>
+          <MyBox>
             <IconButton onClick={toggleTheme} color="inherit">
               {mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
             </IconButton>
