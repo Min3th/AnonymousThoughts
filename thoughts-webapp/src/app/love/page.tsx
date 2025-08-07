@@ -1,7 +1,7 @@
 "use client";
-import MyBox from "../components/box";
-import ThoughtBox from "../components/thoughtbox";
-import useThoughts from "./requests/api";
+import MyBox from "../../components/box";
+import ThoughtBox from "../../components/thoughtbox";
+import useThoughts from "../requests/api";
 import { useEffect, useState } from "react";
 import { useTheme } from "@mui/material/styles";
 
@@ -45,7 +45,7 @@ export default function Home() {
           mt: 2,
         }}
       >
-        Dive into the thoughts of fellow humans...
+        Love...
       </MyBox>
       <MyBox
         sx={{
