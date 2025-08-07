@@ -17,11 +17,12 @@ export default function Home() {
   const currentMode = theme.palette.mode;
   console.log("Current theme mode:", currentMode);
   const [thoughtContent, setThoughtContent] = useState<Thought[]>([]);
-  const { loading, error, fetchThoughts } = useThoughts();
+  const { fetchCategory } = useThoughts();
   useEffect(() => {
     const loadThoughts = async () => {
-      const thoughts = await fetchThoughts();
-      setThoughtContent(thoughts);
+      const loveThoughts = await fetchCategory("Love");
+      console.log("Fetched love thoughts:", loveThoughts);
+      setThoughtContent(loveThoughts);
     };
     loadThoughts();
   }, []);

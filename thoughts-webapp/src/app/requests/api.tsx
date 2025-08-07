@@ -54,9 +54,15 @@ export default function useThoughts() {
     }
   };
 
+  const fetchCategory = async (category = "Love") => {
+    const res = await fetch(`http://localhost:8080/api/thoughts?category=${category}`);
+    console.log("Res", res);
+    return await res.json();
+  };
+
   useEffect(() => {
     fetchThoughts();
   }, []);
 
-  return { loading, error, addThought, fetchThoughts };
+  return { loading, error, addThought, fetchThoughts, fetchCategory };
 }

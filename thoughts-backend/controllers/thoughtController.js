@@ -3,7 +3,12 @@ const generateUniqueCode = require("../utils/generateCode");
 
 exports.getThoughts = async (req, res) => {
   try {
-    const thoughts = await Thought.find();
+    const category = req.query.category;
+    let query = {};
+    if (category) {
+      query.category = category;
+    }
+    const thoughts = await Thought.find(query);
     res.json(thoughts);
   } catch (err) {
     console.error("Error fetching thoughts:", err);
