@@ -17,7 +17,7 @@ import Link from "next/link";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 
-const Categories = ["Love", "Sad", "Happiness", "Bliss"];
+const Categories = ["Love", "Sad", "Happy", "Bliss"];
 
 type ResponsiveAppBarProps = {
   toggleTheme: () => void;
@@ -107,7 +107,9 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
             >
               {Categories.map((category) => (
                 <MenuItem key={category} onClick={handleCloseCategoriesMenu}>
-                  <Typography sx={{ textAlign: "center" }}>{category}</Typography>
+                  <Link href={`/${category.toLowerCase()}`} passHref style={{ textDecoration: "none" }}>
+                    <Typography sx={{ textAlign: "center" }}>{category}</Typography>
+                  </Link>
                 </MenuItem>
               ))}
             </Menu>
