@@ -17,7 +17,7 @@ import Link from "next/link";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 
-const settings = ["Love", "Sad", "Happiness", "Bliss"];
+const Categories = ["Love", "Sad", "Happiness", "Bliss"];
 
 type ResponsiveAppBarProps = {
   toggleTheme: () => void;
@@ -25,22 +25,14 @@ type ResponsiveAppBarProps = {
 };
 
 function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const [anchorElCategories, setAnchorElCategories] = React.useState<null | HTMLElement>(null);
 
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
+  const handleOpenCategoriesMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElCategories(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
+  const handleCloseCategoriesMenu = () => {
+    setAnchorElCategories(null);
   };
 
   return (
@@ -67,18 +59,6 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
             </Typography>
           </Link>
 
-          <MyBox sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-          </MyBox>
           <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
           <Typography
             variant="h5"
@@ -106,11 +86,13 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
             <Link href="/about" passHref style={{ textDecoration: "none" }}>
               <Button sx={{ my: 2, color: "white", display: "block" }}>ABOUT</Button>
             </Link>
-            <Button sx={{ p: 0, color: "#000000" }}>Categories</Button>
+            <Button sx={{ my: 2, color: "white", display: "block" }} onClick={handleOpenCategoriesMenu}>
+              Categories
+            </Button>
             <Menu
               sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
+              id="categories"
+              anchorEl={anchorElCategories}
               anchorOrigin={{
                 vertical: "top",
                 horizontal: "right",
@@ -120,12 +102,12 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
                 vertical: "top",
                 horizontal: "right",
               }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
+              open={Boolean(anchorElCategories)}
+              onClose={handleCloseCategoriesMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography sx={{ textAlign: "center" }}>{setting}</Typography>
+              {Categories.map((category) => (
+                <MenuItem key={category} onClick={handleCloseCategoriesMenu}>
+                  <Typography sx={{ textAlign: "center" }}>{category}</Typography>
                 </MenuItem>
               ))}
             </Menu>
