@@ -42,7 +42,8 @@ export default function Home() {
           fontFamily: "Georgia, serif",
           fontWeight: 500,
           textAlign: "center",
-          mt: 2,
+          mt: 8,
+          mb: 8,
         }}
       >
         Dive into the thoughts of fellow humans...

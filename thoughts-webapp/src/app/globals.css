@@ -10,3 +10,11 @@ body {
 #vercel-feedback-button {
   display: none !important;
 }
+
+html {
+  overflow-y: scroll;
+}
+
+body.MuiModal-open {
+  padding-right: 15px !important; /* adjust if your scrollbar is different */
+}

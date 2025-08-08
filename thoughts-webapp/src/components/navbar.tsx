@@ -16,6 +16,7 @@ import MyBox from "./box";
 import Link from "next/link";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
+import { ClickAwayListener, Grow, MenuList, Paper, Popper } from "@mui/material";
 
 const Categories = ["Love", "Sad", "Happy", "Bliss"];
 
@@ -36,7 +37,15 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
   };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: "#1a1a2e", color: "#ffffff" }}>
+    <AppBar
+      position="static"
+      sx={{
+        backgroundColor: "#1a1a2e",
+        color: "#ffffff",
+        width: "100%", // prevents horizontal shift
+        boxSizing: "border-box",
+      }}
+    >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Link href="/" passHref style={{ textDecoration: "none" }}>
@@ -68,37 +77,35 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
             <Button sx={{ my: 2, color: "white", display: "block" }} onClick={handleOpenCategoriesMenu}>
               Categories
             </Button>
-            <Menu
-              sx={{
-                mt: "45px",
-                "& .MuiPaper-root": {
-                  backgroundColor: "#1a1a2e", // match AppBar background
-                  color: "#ffffff",
-                  minWidth: 160, // optional: ensures fixed width
-                },
-              }}
-              id="categories"
-              anchorEl={anchorElCategories}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
+            <Popper
               open={Boolean(anchorElCategories)}
-              onClose={handleCloseCategoriesMenu}
+              anchorEl={anchorElCategories}
+              placement="bottom-end"
+              transition
+              disablePortal
             >
-              {Categories.map((category) => (
-                <MenuItem key={category} onClick={handleCloseCategoriesMenu}>
-                  <Link href={`/${category.toLowerCase()}`} passHref style={{ textDecoration: "none" }}>
-                    <Typography sx={{ textAlign: "center" }}>{category}</Typography>
-                  </Link>
-                </MenuItem>
-              ))}
-            </Menu>
+              {({ TransitionProps }) => (
+                <Grow {...TransitionProps} style={{ transformOrigin: "right top" }}>
+                  <Paper sx={{ mt: 1, backgroundColor: "#1a1a2e", color: "#fff", minWidth: 160 }}>
+                    <ClickAwayListener onClickAway={handleCloseCategoriesMenu}>
+                      <MenuList autoFocusItem={Boolean(anchorElCategories)}>
+                        {Categories.map((category) => (
+                          <MenuItem key={category} onClick={handleCloseCategoriesMenu}>
+                            <Link
+                              href={`/${category.toLowerCase()}`}
+                              passHref
+                              style={{ textDecoration: "none", color: "inherit", width: "100%" }}
+                            >
+                              <Typography sx={{ textAlign: "center" }}>{category}</Typography>
+                            </Link>
+                          </MenuItem>
+                        ))}
+                      </MenuList>
+                    </ClickAwayListener>
+                  </Paper>
+                </Grow>
+              )}
+            </Popper>
           </MyBox>
           <MyBox>
             <IconButton onClick={toggleTheme} color="inherit">
