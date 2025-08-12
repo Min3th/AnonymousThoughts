@@ -26,8 +26,6 @@ export default function Home() {
     loadThoughts();
   }, []);
 
-  const heights = [100, 150, 200, 250, 300, 350, 400, 450, 500];
-
   const getRandomLightColor = () => {
     const hue = Math.floor(Math.random() * 360);
     const lightness = currentMode === "dark" ? 30 : 85;
@@ -73,7 +71,7 @@ export default function Home() {
                 mb: 2,
               }}
             >
-              <ThoughtBox backgroundColor={getRandomLightColor()} height={heights[index % heights.length]}>
+              <ThoughtBox backgroundColor={getRandomLightColor()}>
                 <div>
                   <strong>{thought.topic}</strong>
                   <p>{thought.content}</p>

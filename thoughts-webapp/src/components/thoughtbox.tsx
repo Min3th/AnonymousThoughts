@@ -4,15 +4,13 @@ import MyBox from "./box";
 type ThoughtBoxProps = {
   children: ReactNode;
   backgroundColor?: string;
-  height?: number;
 };
 
-const ThoughtBox = ({ children, backgroundColor, height }: ThoughtBoxProps) => {
+const ThoughtBox = ({ children, backgroundColor }: ThoughtBoxProps) => {
   return (
     <MyBox
       sx={{
         backgroundColor,
-        height,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",

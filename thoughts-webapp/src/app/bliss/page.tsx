@@ -26,9 +26,6 @@ export default function Home() {
     };
     loadThoughts();
   }, []);
-  const min = 150;
-  const max = 500;
-  const randomHeight = () => Math.floor(Math.random() * (max - min + 1)) + min;
 
   const getRandomLightColor = () => {
     const hue = Math.floor(Math.random() * 360);
@@ -75,7 +72,7 @@ export default function Home() {
                 mb: 2,
               }}
             >
-              <ThoughtBox backgroundColor={getRandomLightColor()} height={randomHeight()}>
+              <ThoughtBox backgroundColor={getRandomLightColor()}>
                 <div>
                   <strong>{thought.topic}</strong>
                   <p>{thought.content}</p>

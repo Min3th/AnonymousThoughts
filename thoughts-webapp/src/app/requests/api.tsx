@@ -46,9 +46,10 @@ export default function useThoughts() {
       if (!response.ok) {
         throw new Error("Failed to add thought");
       }
-      snackbar.success("Thought added successfully, your id is: " + (await response.json()).uniqueCode);
-      return response.json();
+      const data = await response.json();
+      snackbar.success("Thought added successfully, your id is: " + data.uniqueCode);
       setError(null);
+      return data;
     } catch (err) {
       console.error("Error adding thoughts:", err);
     }
