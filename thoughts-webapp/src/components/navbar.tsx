@@ -17,6 +17,8 @@ import Link from "next/link";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import { ClickAwayListener, Grow, MenuList, Paper, Popper } from "@mui/material";
+import ThoughtsIcon from "../../public/images/annonymous-thoughts.png";
+import Image from "next/image";
 
 const Categories = ["Love", "Sad", "Happy", "Bliss"];
 
@@ -49,23 +51,7 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Link href="/" passHref style={{ textDecoration: "none" }}>
-            <Typography
-              variant="h6"
-              noWrap
-              component="a"
-              href="#app-bar-with-responsive-menu"
-              sx={{
-                mr: 2,
-                display: "flex",
-                fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                color: "white",
-                textDecoration: "none",
-              }}
-            >
-              Anonymous Thoughts
-            </Typography>
+            <Image src={ThoughtsIcon} alt="Thoughts icon" height={50} />
           </Link>
           <MyBox sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
             <Link href="/publish" passHref style={{ textDecoration: "none" }}>
