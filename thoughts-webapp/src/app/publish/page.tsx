@@ -4,6 +4,7 @@ import useThoughts from "../requests/api";
 import * as Yup from "yup";
 import { Box, Button, Container, TextField, Typography, Paper, MenuItem } from "@mui/material";
 import { useFormik } from "formik";
+import Loading from "@/components/loading";
 
 const validationSchema = Yup.object().shape({
   topic: Yup.string().required("Topic is required"),
@@ -12,9 +13,8 @@ const validationSchema = Yup.object().shape({
 });
 
 const ThoughtsPage = () => {
-  const [topic, setTopic] = useState("");
-  const [content, setContent] = useState("");
-  const { loading, error, addThought } = useThoughts();
+  const [loading, setLoading] = useState(false);
+  const { error, addThought } = useThoughts();
 
   const categories = ["Love", "Sad", "Happy", "Bliss", "Neutral"];
 
@@ -26,72 +26,81 @@ const ThoughtsPage = () => {
     },
     validationSchema,
     onSubmit: async (values, { resetForm }) => {
-      await addThought(values);
-      resetForm();
+      setLoading(true);
+      try {
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+        await addThought(values);
+        resetForm();
+      } finally {
+        setLoading(false);
+      }
     },
   });
 
   return (
-    <Container maxWidth="sm">
-      <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
-        <Paper elevation={0} sx={{ p: 4, width: "100%", backgroundColor: "transparent" }}>
-          <Typography variant="h5" fontWeight="bold" gutterBottom sx={{ textAlign: "center" }}>
-            Submit a Thought
-          </Typography>
+    <>
+      <Loading open={loading} />
+      <Container maxWidth="sm">
+        <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+          <Paper elevation={0} sx={{ p: 4, width: "100%", backgroundColor: "transparent" }}>
+            <Typography variant="h5" fontWeight="bold" gutterBottom sx={{ textAlign: "center" }}>
+              Submit a Thought
+            </Typography>
 
-          <form onSubmit={formik.handleSubmit}>
-            <TextField
-              fullWidth
-              label="Thought Topic"
-              name="topic"
-              value={formik.values.topic}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.topic && Boolean(formik.errors.topic)}
-              helperText={formik.touched.topic && formik.errors.topic}
-              margin="normal"
-            />
+            <form onSubmit={formik.handleSubmit}>
+              <TextField
+                fullWidth
+                label="Thought Topic"
+                name="topic"
+                value={formik.values.topic}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.topic && Boolean(formik.errors.topic)}
+                helperText={formik.touched.topic && formik.errors.topic}
+                margin="normal"
+              />
 
-            <TextField
-              fullWidth
-              label="Thought Content"
-              name="content"
-              multiline
-              rows={5}
-              value={formik.values.content}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.content && Boolean(formik.errors.content)}
-              helperText={formik.touched.content && formik.errors.content}
-              margin="normal"
-            />
+              <TextField
+                fullWidth
+                label="Thought Content"
+                name="content"
+                multiline
+                rows={5}
+                value={formik.values.content}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.content && Boolean(formik.errors.content)}
+                helperText={formik.touched.content && formik.errors.content}
+                margin="normal"
+              />
 
-            <TextField
-              select
-              fullWidth
-              label="Category"
-              name="category"
-              value={formik.values.category}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.category && Boolean(formik.errors.category)}
-              helperText={formik.touched.category && formik.errors.category}
-              margin="normal"
-            >
-              {categories.map((option) => (
-                <MenuItem key={option} value={option}>
-                  {option.charAt(0).toUpperCase() + option.slice(1)}
-                </MenuItem>
-              ))}
-            </TextField>
+              <TextField
+                select
+                fullWidth
+                label="Category"
+                name="category"
+                value={formik.values.category}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.category && Boolean(formik.errors.category)}
+                helperText={formik.touched.category && formik.errors.category}
+                margin="normal"
+              >
+                {categories.map((option) => (
+                  <MenuItem key={option} value={option}>
+                    {option.charAt(0).toUpperCase() + option.slice(1)}
+                  </MenuItem>
+                ))}
+              </TextField>
 
-            <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
-              Submit
-            </Button>
-          </form>
-        </Paper>
-      </Box>
-    </Container>
+              <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
+                Submit
+              </Button>
+            </form>
+          </Paper>
+        </Box>
+      </Container>
+    </>
   );
 };
 
