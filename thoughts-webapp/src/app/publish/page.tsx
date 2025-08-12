@@ -25,8 +25,9 @@ const ThoughtsPage = () => {
       category: "",
     },
     validationSchema,
-    onSubmit: async (values) => {
+    onSubmit: async (values, { resetForm }) => {
       await addThought(values);
+      resetForm();
     },
   });
 
