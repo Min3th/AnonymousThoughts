@@ -5,6 +5,6 @@ const moderationController = require("../controllers/moderationController");
 
 router.get("/", thoughtController.getThoughts);
 // router.post("/", thoughtController.createThought);
-router.post("/", moderationController.moderateThought, thoughtController.createThought);
+router.post("/", moderationController.postModeration, thoughtController.createThought);
 
 module.exports = router;

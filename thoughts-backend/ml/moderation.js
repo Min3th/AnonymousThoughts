@@ -1,12 +1,12 @@
-// moderation.js
-import OpenAI from "openai";
+import { InferenceClient } from "huggingface";
 
-// 1. Init OpenAI client
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+// 1. Init Hugging Face client
+const hf = new InferenceClient({
+  provider: "hf-inference",
+  apiKey: process.env.HF_TOKEN, // set in .env
 });
 
-// 3. Local quick gibberish check
+// 2. Local quick gibberish check
 function isGibberish(text) {
   if (!text) return true;
 
@@ -24,7 +24,7 @@ function isGibberish(text) {
   return false;
 }
 
-// 4. Main moderation function
+// 3. Main moderation function
 export async function moderateContent(title, content) {
   const combined = `${title}\n\n${content}`;
 
@@ -37,29 +37,19 @@ export async function moderateContent(title, content) {
     };
   }
 
-  // Step 2: Use OpenAI Moderation API
-  const modResponse = await openai.moderations.create({
-    model: "omni-moderation-latest",
-    input: combined,
+  // Step 2: Use Hugging Face model for moderation
+  const hfResult = await hf.textClassification({
+    model: "facebook/roberta-hate-speech-dynabench-r4-target",
+    inputs: combined,
   });
 
-  const results = modResponse.results[0];
+  // hfResult is an array of labels & scores
+  // Example: [{ label: 'not-hate', score: 0.97 }, { label: 'hate', score: 0.03 }]
+  const hateLabel = hfResult.find((r) => r.label.toLowerCase().includes("hate"));
 
-  // Map OpenAI flags to your categories
   let category = "CLEAN";
-
-  if (results.categories.hate || results.categories["hate/threatening"]) {
+  if (hateLabel && hateLabel.score > 0.5) {
     category = "HATE_SPEECH";
-  } else if (results.categories["harassment/threatening"] || results.categories.harassment) {
-    category = "PERSONAL_ATTACK";
-  } else if (
-    results.categories.sexual ||
-    results.categories.violence ||
-    results.categories["self-harm"] ||
-    results.categories["sexual/minors"] ||
-    results.categories["violence/graphic"]
-  ) {
-    category = "OTHER_INAPPROPRIATE";
   }
 
   const blocked = category !== "CLEAN";
