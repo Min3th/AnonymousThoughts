@@ -55,15 +55,66 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
           </Link>
           <MyBox sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
             <Link href="/" passHref style={{ textDecoration: "none" }}>
-              <Button sx={{ my: 2, color: "white", display: "block" }}>HOME</Button>
+              <Button
+                sx={{
+                  my: 2,
+                  color: "white",
+                  display: "block",
+                  transition: "transform 0.1s ease-in-out",
+                  "&:hover": {
+                    transform: "scale(1.2)",
+                    backgroundColor: "transparent",
+                  },
+                }}
+              >
+                HOME
+              </Button>
             </Link>
             <Link href="/publish" passHref style={{ textDecoration: "none" }}>
-              <Button sx={{ my: 2, color: "white", display: "block" }}>PUBLISH</Button>
+              <Button
+                sx={{
+                  my: 2,
+                  color: "white",
+                  display: "block",
+                  transition: "transform 0.1s ease-in-out",
+                  "&:hover": {
+                    transform: "scale(1.2)",
+                    backgroundColor: "transparent",
+                  },
+                }}
+              >
+                PUBLISH
+              </Button>
             </Link>
             <Link href="/about" passHref style={{ textDecoration: "none" }}>
-              <Button sx={{ my: 2, color: "white", display: "block" }}>ABOUT</Button>
+              <Button
+                sx={{
+                  my: 2,
+                  color: "white",
+                  display: "block",
+                  transition: "transform 0.1s ease-in-out",
+                  "&:hover": {
+                    transform: "scale(1.2)",
+                    backgroundColor: "transparent",
+                  },
+                }}
+              >
+                ABOUT
+              </Button>
             </Link>
-            <Button sx={{ my: 2, color: "white", display: "block" }} onClick={handleOpenCategoriesMenu}>
+            <Button
+              sx={{
+                my: 2,
+                color: "white",
+                display: "block",
+                transition: "transform 0.1s ease-in-out",
+                "&:hover": {
+                  transform: "scale(1.05)",
+                  backgroundColor: "transparent",
+                },
+              }}
+              onClick={handleOpenCategoriesMenu}
+            >
               Categories
             </Button>
             <Popper
