@@ -11,6 +11,7 @@ export const postModeration = async (req: Request, res: Response, next: NextFunc
     if (result.blocked) {
       return res.status(400).json({ error: result.reason });
     }
+    // return res.status(200).json({ message: "Content is clean", category: result.category });
     next(); // pass control to the next middleware (createThought)
   } catch (error) {
     console.error(error);

@@ -52,16 +52,10 @@ export async function moderateContent(title: string, content: string): Promise<M
     };
   }
 
-  const prompt = `
-  Rate the following text on a scale of 0-1 for hate speech, where 0 is clean and 1 is hate speech(extremely hateful).
-  Text: "${combined}"
-  Return only the number.
-  `;
-  const text = "I hate you.";
   // Step 2: Use Hugging Face model for moderation
   const hfResult: HFClassification[] = await hf.textClassification({
     model: "tabularisai/multilingual-sentiment-analysis",
-    inputs: text,
+    inputs: combined,
   });
 
   console.log("HF result:", hfResult);
