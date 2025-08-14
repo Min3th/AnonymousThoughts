@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-
-const { moderateContent } = require("../ml/moderation");
+import { moderateContent } from "../ml/moderation";
 
 export const postModeration = async (req: Request, res: Response, next: NextFunction) => {
   const { topic, content } = req.body;
