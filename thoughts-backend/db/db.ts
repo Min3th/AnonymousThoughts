@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const connectDB = async (): Promise<void> => {
+export const connectDB = async (): Promise<void> => {
   try {
     await mongoose.connect("mongodb://localhost:27017/thoughts");
     console.log("MongoDB connected successfully");
@@ -9,5 +9,3 @@ const connectDB = async (): Promise<void> => {
     process.exit(1);
   }
 };
-
-module.exports = connectDB;

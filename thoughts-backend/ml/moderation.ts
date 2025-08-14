@@ -1,21 +1,18 @@
-import { InferenceClient } from "huggingface";
+import { InferenceClient } from "@huggingface/inference";
 
 interface ModerationResult {
-  category: String;
-  reason: String;
-  blocked: Boolean;
+  category: string;
+  reason: string;
+  blocked: boolean;
 }
 
 interface HFClassification {
-  label: String;
+  label: string;
   score: number;
 }
 
 // 1. Init Hugging Face client
-const hf = new InferenceClient({
-  provider: "hf-inference",
-  apiKey: process.env.HF_TOKEN, // set in .env
-});
+const hf = new InferenceClient(process.env.HF_TOKEN);
 
 // 2. Local quick gibberish check
 function isGibberish(text: string): boolean {
