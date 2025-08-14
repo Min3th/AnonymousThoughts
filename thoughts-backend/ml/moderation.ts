@@ -1,4 +1,5 @@
 import { InferenceClient } from "@huggingface/inference";
+import "dotenv/config";
 
 interface ModerationResult {
   category: string;
@@ -11,7 +12,13 @@ interface HFClassification {
   score: number;
 }
 
+interface HFTextGenerationResult {
+  generated_text: string;
+}
+
 // 1. Init Hugging Face client
+console.log("HF_TOKEN:", process.env.HF_TOKEN);
+
 const hf = new InferenceClient(process.env.HF_TOKEN);
 
 // 2. Local quick gibberish check
@@ -33,7 +40,7 @@ function isGibberish(text: string): boolean {
 }
 
 // 3. Main moderation function
-export async function moderateContent(title: String, content: String): Promise<ModerationResult> {
+export async function moderateContent(title: string, content: string): Promise<ModerationResult> {
   const combined = `${title}\n\n${content}`;
 
   // Step 1: Local gibberish detection
@@ -45,21 +52,31 @@ export async function moderateContent(title: String, content: String): Promise<M
     };
   }
 
+  const prompt = `
+  Rate the following text on a scale of 0-1 for hate speech, where 0 is clean and 1 is hate speech(extremely hateful).
+  Text: "${combined}"
+  Return only the number.
+  `;
+  const text = "I hate you.";
   // Step 2: Use Hugging Face model for moderation
   const hfResult: HFClassification[] = await hf.textClassification({
-    model: "facebook/roberta-hate-speech-dynabench-r4-target",
-    inputs: combined,
+    model: "tabularisai/multilingual-sentiment-analysis",
+    inputs: text,
   });
 
-  // hfResult is an array of labels & scores
-  // Example: [{ label: 'not-hate', score: 0.97 }, { label: 'hate', score: 0.03 }]
-  const hateLabel = hfResult.find((r) => r.label.toLowerCase().includes("hate"));
-
+  console.log("HF result:", hfResult);
+  // const score = parseFloat(hfResult.generated_text.trim());
+  // console.log("Parsed score:", score);
   let category = "CLEAN";
-  if (hateLabel && hateLabel.score > 0.5) {
+  // if (score > 0.5) {
+  //   category = "HATE_SPEECH";
+  // }
+  const highest = hfResult.reduce((prev, current) => {
+    return current.score > prev.score ? current : prev;
+  });
+  if (highest.label === "Very Negative" || highest.label === "Negative") {
     category = "HATE_SPEECH";
   }
-
   const blocked = category !== "CLEAN";
 
   return {
