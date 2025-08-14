@@ -54,6 +54,9 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
             <Image src={ThoughtsIcon} alt="Thoughts icon" height={50} />
           </Link>
           <MyBox sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
+            <Link href="/" passHref style={{ textDecoration: "none" }}>
+              <Button sx={{ my: 2, color: "white", display: "block" }}>HOME</Button>
+            </Link>
             <Link href="/publish" passHref style={{ textDecoration: "none" }}>
               <Button sx={{ my: 2, color: "white", display: "block" }}>PUBLISH</Button>
             </Link>

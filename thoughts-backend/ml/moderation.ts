@@ -12,16 +12,9 @@ interface HFClassification {
   score: number;
 }
 
-interface HFTextGenerationResult {
-  generated_text: string;
-}
-
-// 1. Init Hugging Face client
-console.log("HF_TOKEN:", process.env.HF_TOKEN);
-
 const hf = new InferenceClient(process.env.HF_TOKEN);
 
-// 2. Local quick gibberish check
+// Function to check spam text input like "sda dsd ds asd sda nvfdsj"
 function isGibberish(text: string): boolean {
   if (!text) return true;
 
@@ -39,11 +32,11 @@ function isGibberish(text: string): boolean {
   return false;
 }
 
-// 3. Main moderation function
+// function to moderate content (gibberish detection + harmful content detection)
 export async function moderateContent(title: string, content: string): Promise<ModerationResult> {
   const combined = `${title}\n\n${content}`;
+  console.log("Combined text for moderation:", combined);
 
-  // Step 1: Local gibberish detection
   if (isGibberish(combined)) {
     return {
       category: "GIBBERISH",
@@ -52,19 +45,13 @@ export async function moderateContent(title: string, content: string): Promise<M
     };
   }
 
-  // Step 2: Use Hugging Face model for moderation
   const hfResult: HFClassification[] = await hf.textClassification({
     model: "tabularisai/multilingual-sentiment-analysis",
     inputs: combined,
   });
 
   console.log("HF result:", hfResult);
-  // const score = parseFloat(hfResult.generated_text.trim());
-  // console.log("Parsed score:", score);
   let category = "CLEAN";
-  // if (score > 0.5) {
-  //   category = "HATE_SPEECH";
-  // }
   const highest = hfResult.reduce((prev, current) => {
     return current.score > prev.score ? current : prev;
   });

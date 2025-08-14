@@ -9,7 +9,7 @@ export const getThoughts = async (req: Request, res: Response): Promise<void> =>
     if (category) {
       query.category = category;
     }
-    const thoughts = await Thought.find(query);
+    const thoughts = await Thought.find(query).sort({ createdAt: -1 });
     res.json(thoughts);
   } catch (err) {
     console.error("Error fetching thoughts:", err);
