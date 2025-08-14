@@ -1,7 +1,8 @@
+import * as thoughtController from "../controllers/thoughtController";
+import * as moderationController from "../controllers/moderationController";
+
 const express = require("express");
 const router = express.Router();
-const thoughtController = require("../controllers/thoughtController");
-const moderationController = require("../controllers/moderationController");
 
 router.get("/", thoughtController.getThoughts);
 // router.post("/", thoughtController.createThought);

@@ -1,10 +1,11 @@
-const Thought = require("../models/thoughts");
-const generateUniqueCode = require("../utils/generateCode");
+import { Request, Response } from "express";
+import { generateUniqueCode } from "../utils/generateCode";
+import Thought from "../models/thoughts";
 
-exports.getThoughts = async (req, res) => {
+export const getThoughts = async (req: Request, res: Response): Promise<void> => {
   try {
-    const category = req.query.category;
-    let query = {};
+    const category = req.query.category as string | undefined;
+    const query: Record<string, any> = {};
     if (category) {
       query.category = category;
     }
@@ -16,13 +17,18 @@ exports.getThoughts = async (req, res) => {
   }
 };
 
-exports.createThought = async (req, res) => {
+export const createThought = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { topic, content, category } = req.body;
+    const { topic, content, category } = req.body as {
+      topic?: string;
+      content?: string;
+      category?: string;
+    };
     const uniqueCode = generateUniqueCode();
 
     if (!topic || !content) {
-      return res.status(400).json({ error: "Topic and content are required!" });
+      res.status(400).json({ error: "Topic and content are required!" });
+      return;
     }
 
     const newThought = new Thought({ topic, content, uniqueCode, category });
