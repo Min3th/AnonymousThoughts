@@ -1,5 +1,16 @@
 import { InferenceClient } from "huggingface";
 
+interface ModerationResult {
+  category: String;
+  reason: String;
+  blocked: Boolean;
+}
+
+interface HFClassification {
+  label: String;
+  score: number;
+}
+
 // 1. Init Hugging Face client
 const hf = new InferenceClient({
   provider: "hf-inference",
@@ -7,7 +18,7 @@ const hf = new InferenceClient({
 });
 
 // 2. Local quick gibberish check
-function isGibberish(text) {
+function isGibberish(text: string): boolean {
   if (!text) return true;
 
   const words = text.trim().split(/\s+/);
@@ -25,7 +36,7 @@ function isGibberish(text) {
 }
 
 // 3. Main moderation function
-export async function moderateContent(title, content) {
+export async function moderateContent(title: String, content: String): Promise<ModerationResult> {
   const combined = `${title}\n\n${content}`;
 
   // Step 1: Local gibberish detection
@@ -38,7 +49,7 @@ export async function moderateContent(title, content) {
   }
 
   // Step 2: Use Hugging Face model for moderation
-  const hfResult = await hf.textClassification({
+  const hfResult: HFClassification[] = await hf.textClassification({
     model: "facebook/roberta-hate-speech-dynabench-r4-target",
     inputs: combined,
   });

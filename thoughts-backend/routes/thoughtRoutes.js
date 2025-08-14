@@ -7,4 +7,7 @@ router.get("/", thoughtController.getThoughts);
 // router.post("/", thoughtController.createThought);
 router.post("/", moderationController.postModeration, thoughtController.createThought);
 
+// Test-only moderation endpoint
+router.post("/moderate", moderationController.postModeration);
+
 module.exports = router;

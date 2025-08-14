@@ -1,3 +1,5 @@
+const { moderateContent } = require("../ml/moderation");
+
 exports.postModeration = async (req, res) => {
   const { topic, content } = req.body;
   if (!topic || !content) {
