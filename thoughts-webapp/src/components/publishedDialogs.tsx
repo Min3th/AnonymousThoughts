@@ -19,8 +19,19 @@ export const ThoughtDialog = ({ open, onClose, generatedId }: ThoughtDialogProps
     }
   };
   return (
-    <Dialog open={open} onClose={handleClose}>
-      <DialogTitle>Thought Added Successfully</DialogTitle>
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      slotProps={{
+        paper: {
+          sx: {
+            borderRadius: 2, // 16px rounded corners
+            boxShadow: 4,
+          },
+        },
+      }}
+    >
+      <DialogTitle>Thought Added Successfully!</DialogTitle>
       <DialogContent>
         <Typography>
           Your ID: <strong>{generatedId}</strong>

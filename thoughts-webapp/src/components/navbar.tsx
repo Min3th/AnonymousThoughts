@@ -16,9 +16,20 @@ import MyBox from "./box";
 import Link from "next/link";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
-import { ClickAwayListener, Grow, MenuList, Paper, Popper } from "@mui/material";
+import {
+  ClickAwayListener,
+  Dialog,
+  DialogContent,
+  Grow,
+  InputAdornment,
+  MenuList,
+  Paper,
+  Popper,
+  TextField,
+} from "@mui/material";
 import ThoughtsIcon from "../../public/images/annonymous-thoughts.png";
 import Image from "next/image";
+import SearchIcon from "@mui/icons-material/Search";
 
 const Categories = ["Love", "Sad", "Happy", "Bliss"];
 
@@ -29,6 +40,7 @@ type ResponsiveAppBarProps = {
 
 function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
   const [anchorElCategories, setAnchorElCategories] = React.useState<null | HTMLElement>(null);
+  const [openSearch, setOpenSearch] = React.useState(false);
 
   const handleOpenCategoriesMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElCategories(event.currentTarget);
@@ -38,23 +50,79 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
     setAnchorElCategories(null);
   };
 
+  const handleOpenSearch = () => {
+    setOpenSearch(true);
+  };
+
+  const handleCloseSearch = () => {
+    setOpenSearch(false);
+  };
+
   return (
-    <AppBar
-      position="static"
-      sx={{
-        backgroundColor: "#1a1a2e",
-        color: "#ffffff",
-        width: "100%", // prevents horizontal shift
-        boxSizing: "border-box",
-      }}
-    >
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <Link href="/" passHref style={{ textDecoration: "none" }}>
-            <Image src={ThoughtsIcon} alt="Thoughts icon" height={50} />
-          </Link>
-          <MyBox sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
+    <>
+      <AppBar
+        position="static"
+        sx={{
+          backgroundColor: "#1a1a2e",
+          color: "#ffffff",
+          width: "100%", // prevents horizontal shift
+          boxSizing: "border-box",
+        }}
+      >
+        <Container maxWidth="xl">
+          <Toolbar disableGutters>
             <Link href="/" passHref style={{ textDecoration: "none" }}>
+              <Image src={ThoughtsIcon} alt="Thoughts icon" height={50} />
+            </Link>
+            <MyBox sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
+              <Link href="/" passHref style={{ textDecoration: "none" }}>
+                <Button
+                  sx={{
+                    my: 2,
+                    color: "white",
+                    display: "block",
+                    transition: "transform 0.1s ease-in-out",
+                    "&:hover": {
+                      transform: "scale(1.2)",
+                      backgroundColor: "transparent",
+                    },
+                  }}
+                >
+                  HOME
+                </Button>
+              </Link>
+              <Link href="/publish" passHref style={{ textDecoration: "none" }}>
+                <Button
+                  sx={{
+                    my: 2,
+                    color: "white",
+                    display: "block",
+                    transition: "transform 0.1s ease-in-out",
+                    "&:hover": {
+                      transform: "scale(1.2)",
+                      backgroundColor: "transparent",
+                    },
+                  }}
+                >
+                  PUBLISH
+                </Button>
+              </Link>
+              <Link href="/about" passHref style={{ textDecoration: "none" }}>
+                <Button
+                  sx={{
+                    my: 2,
+                    color: "white",
+                    display: "block",
+                    transition: "transform 0.1s ease-in-out",
+                    "&:hover": {
+                      transform: "scale(1.2)",
+                      backgroundColor: "transparent",
+                    },
+                  }}
+                >
+                  ABOUT
+                </Button>
+              </Link>
               <Button
                 sx={{
                   my: 2,
@@ -62,15 +130,14 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
                   display: "block",
                   transition: "transform 0.1s ease-in-out",
                   "&:hover": {
-                    transform: "scale(1.2)",
+                    transform: "scale(1.05)",
                     backgroundColor: "transparent",
                   },
                 }}
+                onClick={handleOpenCategoriesMenu}
               >
-                HOME
+                Categories
               </Button>
-            </Link>
-            <Link href="/publish" passHref style={{ textDecoration: "none" }}>
               <Button
                 sx={{
                   my: 2,
@@ -78,83 +145,74 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
                   display: "block",
                   transition: "transform 0.1s ease-in-out",
                   "&:hover": {
-                    transform: "scale(1.2)",
+                    transform: "scale(1.05)",
                     backgroundColor: "transparent",
                   },
                 }}
+                onClick={handleOpenSearch}
               >
-                PUBLISH
+                <SearchIcon />
               </Button>
-            </Link>
-            <Link href="/about" passHref style={{ textDecoration: "none" }}>
-              <Button
-                sx={{
-                  my: 2,
-                  color: "white",
-                  display: "block",
-                  transition: "transform 0.1s ease-in-out",
-                  "&:hover": {
-                    transform: "scale(1.2)",
-                    backgroundColor: "transparent",
-                  },
-                }}
+              <Popper
+                open={Boolean(anchorElCategories)}
+                anchorEl={anchorElCategories}
+                placement="bottom-end"
+                transition
+                disablePortal
               >
-                ABOUT
-              </Button>
-            </Link>
-            <Button
-              sx={{
-                my: 2,
-                color: "white",
-                display: "block",
-                transition: "transform 0.1s ease-in-out",
-                "&:hover": {
-                  transform: "scale(1.05)",
-                  backgroundColor: "transparent",
-                },
-              }}
-              onClick={handleOpenCategoriesMenu}
-            >
-              Categories
-            </Button>
-            <Popper
-              open={Boolean(anchorElCategories)}
-              anchorEl={anchorElCategories}
-              placement="bottom-end"
-              transition
-              disablePortal
-            >
-              {({ TransitionProps }) => (
-                <Grow {...TransitionProps} style={{ transformOrigin: "right top" }}>
-                  <Paper sx={{ mt: 1, backgroundColor: "#1a1a2e", color: "#fff", minWidth: 160 }}>
-                    <ClickAwayListener onClickAway={handleCloseCategoriesMenu}>
-                      <MenuList autoFocusItem={Boolean(anchorElCategories)}>
-                        {Categories.map((category) => (
-                          <MenuItem key={category} onClick={handleCloseCategoriesMenu}>
-                            <Link
-                              href={`/${category.toLowerCase()}`}
-                              passHref
-                              style={{ textDecoration: "none", color: "inherit", width: "100%" }}
-                            >
-                              <Typography sx={{ textAlign: "center" }}>{category}</Typography>
-                            </Link>
-                          </MenuItem>
-                        ))}
-                      </MenuList>
-                    </ClickAwayListener>
-                  </Paper>
-                </Grow>
-              )}
-            </Popper>
-          </MyBox>
-          <MyBox>
-            <IconButton onClick={toggleTheme} color="inherit">
-              {mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
-            </IconButton>
-          </MyBox>
-        </Toolbar>
-      </Container>
-    </AppBar>
+                {({ TransitionProps }) => (
+                  <Grow {...TransitionProps} style={{ transformOrigin: "right top" }}>
+                    <Paper sx={{ mt: 1, backgroundColor: "#1a1a2e", color: "#fff", minWidth: 160 }}>
+                      <ClickAwayListener onClickAway={handleCloseCategoriesMenu}>
+                        <MenuList autoFocusItem={Boolean(anchorElCategories)}>
+                          {Categories.map((category) => (
+                            <MenuItem key={category} onClick={handleCloseCategoriesMenu}>
+                              <Link
+                                href={`/${category.toLowerCase()}`}
+                                passHref
+                                style={{ textDecoration: "none", color: "inherit", width: "100%" }}
+                              >
+                                <Typography sx={{ textAlign: "center" }}>{category}</Typography>
+                              </Link>
+                            </MenuItem>
+                          ))}
+                        </MenuList>
+                      </ClickAwayListener>
+                    </Paper>
+                  </Grow>
+                )}
+              </Popper>
+            </MyBox>
+            <MyBox>
+              <IconButton onClick={toggleTheme} color="inherit">
+                {mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
+              </IconButton>
+            </MyBox>
+          </Toolbar>
+        </Container>
+      </AppBar>
+      {/* Search Dialog */}
+      <Dialog open={openSearch} onClose={handleCloseSearch} fullWidth maxWidth="sm">
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            fullWidth
+            placeholder="Search..."
+            variant="outlined"
+            slotProps={{
+              input: {
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+              },
+            }}
+          />
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
 export default ResponsiveAppBar;
