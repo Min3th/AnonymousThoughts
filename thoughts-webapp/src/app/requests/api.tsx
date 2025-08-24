@@ -31,6 +31,18 @@ export default function useThoughts() {
       console.error("Error fetching thoughts:", err);
     }
   };
+  const fetchThoughtById = async (id: string) => {
+    try {
+      const response = await fetch(`http://localhost:8080/api/thoughts/${id}`);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      return data; // Assuming the API returns an array of thoughts
+    } catch (err) {
+      console.error("Error fetching thoughts:", err);
+    }
+  };
 
   const addThought = async (thought: Thought) => {
     if (!thought.topic || !thought.content) {
@@ -69,5 +81,5 @@ export default function useThoughts() {
     fetchThoughts();
   }, []);
 
-  return { loading, error, addThought, fetchThoughts, fetchCategory };
+  return { loading, error, addThought, fetchThoughts, fetchCategory, fetchThoughtById };
 }

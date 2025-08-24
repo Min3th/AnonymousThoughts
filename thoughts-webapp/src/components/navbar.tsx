@@ -30,6 +30,8 @@ import {
 import ThoughtsIcon from "../../public/images/annonymous-thoughts.png";
 import Image from "next/image";
 import SearchIcon from "@mui/icons-material/Search";
+import { useEffect, useState } from "react";
+import useThoughts from "../app/requests/api";
 
 const Categories = ["Love", "Sad", "Happy", "Bliss"];
 
@@ -41,6 +43,9 @@ type ResponsiveAppBarProps = {
 function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
   const [anchorElCategories, setAnchorElCategories] = React.useState<null | HTMLElement>(null);
   const [openSearch, setOpenSearch] = React.useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [results, setResults] = useState<any[]>([]);
+  const { fetchThoughtById } = useThoughts();
 
   const handleOpenCategoriesMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElCategories(event.currentTarget);
@@ -57,6 +62,28 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
   const handleCloseSearch = () => {
     setOpenSearch(false);
   };
+
+  useEffect(() => {
+    if (searchQuery.trim() === "") {
+      setResults([]);
+      return;
+    }
+
+    const fetchThought = async () => {
+      try {
+        const res = await fetchThoughtById(searchQuery.trim());
+        if (res) {
+          setResults([res]); // wrap in array for easy mapping
+        } else {
+          setResults([]);
+        }
+      } catch (err) {
+        console.error("Error searching thoughts:", err);
+      }
+    };
+
+    fetchThought();
+  }, [searchQuery, fetchThoughtById]);
 
   return (
     <>
@@ -200,6 +227,8 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
             fullWidth
             placeholder="Search..."
             variant="outlined"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             slotProps={{
               input: {
                 startAdornment: (
@@ -210,6 +239,16 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
               },
             }}
           />
+          <div className="mt-4">
+            {results.length > 0
+              ? results.map((thought) => (
+                  <div key={thought._id}>
+                    <strong>{thought.topic}</strong>
+                    <p>{thought.content}</p>
+                  </div>
+                ))
+              : searchQuery && <p>No results found</p>}
+          </div>
         </DialogContent>
       </Dialog>
     </>
