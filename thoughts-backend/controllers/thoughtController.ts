@@ -17,6 +17,22 @@ export const getThoughts = async (req: Request, res: Response): Promise<void> =>
   }
 };
 
+export const getThoughtById = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const id = req.params.id;
+    const thought = await Thought.findById(id);
+    const query: Record<string, any> = {};
+    if (!thought) {
+      res.status(404).json({ error: "Thought not found!" });
+      return;
+    }
+    res.json(thought);
+  } catch (err) {
+    console.error("Error fetching thought by Id:", err);
+    res.status(500).json({ error: "Error fetching thought by Id!" });
+  }
+};
+
 export const createThought = async (req: Request, res: Response): Promise<void> => {
   try {
     const { topic, content, category } = req.body as {
