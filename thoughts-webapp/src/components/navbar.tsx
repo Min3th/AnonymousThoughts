@@ -26,12 +26,15 @@ import {
   Paper,
   Popper,
   TextField,
+  useTheme,
 } from "@mui/material";
 import ThoughtsIcon from "../../public/images/annonymous-thoughts.png";
 import Image from "next/image";
 import SearchIcon from "@mui/icons-material/Search";
 import { useEffect, useState } from "react";
 import useThoughts from "../app/requests/api";
+import ThoughtBox from "./thoughtbox";
+import { getRandomLightColor } from "./randomColor";
 
 const Categories = ["Love", "Sad", "Happy", "Bliss"];
 
@@ -41,10 +44,12 @@ type ResponsiveAppBarProps = {
 };
 
 function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
+  const theme = useTheme();
+  const currentMode = theme.palette.mode;
   const [anchorElCategories, setAnchorElCategories] = React.useState<null | HTMLElement>(null);
   const [openSearch, setOpenSearch] = React.useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [results, setResults] = useState<any[]>([]);
+  const [thought, setThought] = useState<any | null>();
   const { fetchThoughtById } = useThoughts();
 
   const handleOpenCategoriesMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -66,16 +71,16 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
   const handleSearch = async () => {
     console.log("Searching for:", searchQuery);
     if (searchQuery.trim() === "") {
-      setResults([]);
+      setThought([]);
       return;
     }
 
     try {
       const res = await fetchThoughtById(searchQuery.trim());
       if (res) {
-        setResults([res]); // wrap in array for easy mapping
+        setThought(res); // wrap in array for easy mapping
       } else {
-        setResults([]);
+        setThought(null);
       }
     } catch (err) {
       console.error("Error searching thoughts:", err);
@@ -95,8 +100,9 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
       >
         <Container maxWidth="xl">
           <Toolbar disableGutters>
-            <Link href="/" passHref style={{ textDecoration: "none" }}>
-              <Image src={ThoughtsIcon} alt="Thoughts icon" height={50} />
+            <Link href="/" passHref style={{ textDecoration: "none", color: "white" }}>
+              {/* <Image src={ThoughtsIcon} alt="Thoughts icon" height={50} /> */}
+              Anonymous Thoughts
             </Link>
             <MyBox sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
               <Link href="/" passHref style={{ textDecoration: "none" }}>
@@ -239,14 +245,16 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
             }}
           />
           <div className="mt-4">
-            {results.length > 0
-              ? results.map((thought) => (
-                  <div key={thought._id}>
-                    <strong>{thought.topic}</strong>
-                    <p>{thought.content}</p>
-                  </div>
-                ))
-              : searchQuery && <p>No results found</p>}
+            {thought ? (
+              <ThoughtBox backgroundColor={getRandomLightColor(currentMode)}>
+                <div>
+                  <strong>{thought.topic}</strong>
+                  <p>{thought.content}</p>
+                </div>
+              </ThoughtBox>
+            ) : (
+              searchQuery && <p>No results found</p>
+            )}
           </div>
         </DialogContent>
       </Dialog>
