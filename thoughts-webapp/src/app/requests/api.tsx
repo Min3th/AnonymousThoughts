@@ -1,9 +1,6 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import { useSnackbar } from "../utils/snackbar";
-import { Dialog, DialogTitle, DialogContent, Typography, IconButton, DialogActions, Button } from "@mui/material";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
 type Thought = {
   //   _id: string;
@@ -16,8 +13,6 @@ export default function useThoughts() {
   const snackbar = useSnackbar();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [open, setOpen] = useState(false);
-  const [generatedId, setGeneratedId] = useState<string | null>(null);
 
   const fetchThoughts = async () => {
     try {

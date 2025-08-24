@@ -1,17 +1,12 @@
 "use client";
-
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
 import MyBox from "./box";
 import Link from "next/link";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
@@ -28,10 +23,8 @@ import {
   TextField,
   useTheme,
 } from "@mui/material";
-import ThoughtsIcon from "../../public/images/annonymous-thoughts.png";
-import Image from "next/image";
 import SearchIcon from "@mui/icons-material/Search";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useThoughts from "../app/requests/api";
 import ThoughtBox from "./thoughtbox";
 import { getRandomLightColor } from "./randomColor";
@@ -64,9 +57,6 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
   const handleOpenSearch = () => {
     setOpenSearch(true);
   };
-  const handleOpenThought = () => {
-    setOpenThought(true);
-  };
 
   const handleCloseSearch = () => {
     setOpenSearch(false);
@@ -76,7 +66,6 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
   };
 
   const handleSearch = async () => {
-    console.log("Searching for:", searchQuery);
     if (searchQuery.trim() === "") {
       setThought([]);
       return;
@@ -85,7 +74,7 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
     try {
       const res = await fetchThoughtById(searchQuery.trim());
       if (res) {
-        setThought(res); // wrap in array for easy mapping
+        setThought(res);
         setOpenSearch(false);
         setOpenThought(true);
       } else {
@@ -103,15 +92,15 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
         sx={{
           backgroundColor: "#1a1a2e",
           color: "#ffffff",
-          width: "100%", // prevents horizontal shift
+          width: "100%",
           boxSizing: "border-box",
         }}
       >
         <Container maxWidth="xl">
           <Toolbar disableGutters>
-            <Link href="/" passHref style={{ textDecoration: "none", color: "white" }}>
+            <Link href="/" passHref style={{ textDecoration: "none", color: "white", letterSpacing: 2 }}>
               {/* <Image src={ThoughtsIcon} alt="Thoughts icon" height={50} /> */}
-              Anonymous Thoughts
+              ANONYMOUS THOUGHTS
             </Link>
             <MyBox sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
               <Link href="/" passHref style={{ textDecoration: "none" }}>
@@ -275,7 +264,7 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
         slotProps={{
           backdrop: {
             style: {
-              backgroundColor: "rgba(0, 0, 0, 0.9)", // darker than default
+              backgroundColor: "rgba(0, 0, 0, 0.9)",
             },
           },
         }}

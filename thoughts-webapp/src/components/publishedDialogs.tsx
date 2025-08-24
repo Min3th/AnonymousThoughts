@@ -1,6 +1,5 @@
 import { Dialog, DialogTitle, DialogContent, Typography, IconButton, DialogActions, Button } from "@mui/material";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import { useState } from "react";
 
 type ThoughtDialogProps = {
   open: boolean;

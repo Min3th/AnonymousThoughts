@@ -15,7 +15,7 @@ const validationSchema = Yup.object().shape({
 
 const ThoughtsPage = () => {
   const [loading, setLoading] = useState(false);
-  const { error, addThought } = useThoughts();
+  const { addThought } = useThoughts();
   const [generatedId, setGeneratedId] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
 

@@ -4,6 +4,7 @@ import ThoughtBox from "../../components/thoughtbox";
 import useThoughts from "../requests/api";
 import { useEffect, useState } from "react";
 import { useTheme } from "@mui/material/styles";
+import { getRandomLightColor } from "@/components/randomColor";
 
 type Thought = {
   _id: string;
@@ -15,23 +16,15 @@ type Thought = {
 export default function Home() {
   const theme = useTheme();
   const currentMode = theme.palette.mode;
-  console.log("Current theme mode:", currentMode);
   const [thoughtContent, setThoughtContent] = useState<Thought[]>([]);
   const { fetchCategory } = useThoughts();
   useEffect(() => {
     const loadThoughts = async () => {
       const loveThoughts = await fetchCategory("Happy");
-      console.log("Fetched love thoughts:", loveThoughts);
       setThoughtContent(loveThoughts);
     };
     loadThoughts();
   }, []);
-
-  const getRandomLightColor = () => {
-    const hue = Math.floor(Math.random() * 360);
-    const lightness = currentMode === "dark" ? 30 : 85;
-    return `hsl(${hue}, 100%, ${lightness}%)`;
-  };
 
   return (
     <MyBox sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
@@ -72,7 +65,7 @@ export default function Home() {
                 mb: 2,
               }}
             >
-              <ThoughtBox backgroundColor={getRandomLightColor()}>
+              <ThoughtBox backgroundColor={getRandomLightColor(currentMode)}>
                 <div>
                   <strong>{thought.topic}</strong>
                   <p>{thought.content}</p>

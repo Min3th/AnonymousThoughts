@@ -1,8 +1,7 @@
 "use client";
-
 import React from "react";
 import { useTheme } from "@mui/material/styles";
-import { Box, Typography, Link, Divider } from "@mui/material";
+import { Box, Typography, Link } from "@mui/material";
 
 const Footer: React.FC = () => {
   const theme = useTheme();
