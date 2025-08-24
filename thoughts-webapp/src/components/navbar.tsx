@@ -48,6 +48,7 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
   const currentMode = theme.palette.mode;
   const [anchorElCategories, setAnchorElCategories] = React.useState<null | HTMLElement>(null);
   const [openSearch, setOpenSearch] = React.useState(false);
+  const [openThought, setOpenThought] = React.useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [thought, setThought] = useState<any | null>();
   const { fetchThoughtById } = useThoughts();
@@ -63,9 +64,15 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
   const handleOpenSearch = () => {
     setOpenSearch(true);
   };
+  const handleOpenThought = () => {
+    setOpenThought(true);
+  };
 
   const handleCloseSearch = () => {
     setOpenSearch(false);
+  };
+  const handleCloseThought = () => {
+    setOpenThought(false);
   };
 
   const handleSearch = async () => {
@@ -79,6 +86,8 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
       const res = await fetchThoughtById(searchQuery.trim());
       if (res) {
         setThought(res); // wrap in array for easy mapping
+        setOpenSearch(false);
+        setOpenThought(true);
       } else {
         setThought(null);
       }
@@ -222,7 +231,19 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
         </Container>
       </AppBar>
       {/* Search Dialog */}
-      <Dialog open={openSearch} onClose={handleCloseSearch} fullWidth maxWidth="sm">
+      <Dialog
+        open={openSearch}
+        onClose={handleCloseSearch}
+        fullWidth
+        maxWidth="sm"
+        slotProps={{
+          backdrop: {
+            style: {
+              backgroundColor: "rgba(0, 0, 0, 0.8)", // darker than default
+            },
+          },
+        }}
+      >
         <DialogContent>
           <TextField
             autoFocus
@@ -244,18 +265,33 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
               },
             }}
           />
-          <div className="mt-4">
-            {thought ? (
-              <ThoughtBox backgroundColor={getRandomLightColor(currentMode)}>
-                <div>
-                  <strong>{thought.topic}</strong>
-                  <p>{thought.content}</p>
-                </div>
-              </ThoughtBox>
-            ) : (
-              searchQuery && <p>No results found</p>
-            )}
-          </div>
+        </DialogContent>
+      </Dialog>
+      <Dialog
+        open={openThought}
+        onClose={handleCloseThought}
+        fullWidth
+        maxWidth="sm"
+        slotProps={{
+          backdrop: {
+            style: {
+              backgroundColor: "rgba(0, 0, 0, 0.9)", // darker than default
+            },
+          },
+        }}
+        sx={{ backgroundColor: "transparent", padding: 0 }}
+      >
+        <DialogContent sx={{ backgroundColor: "transparent", padding: 0 }}>
+          {thought ? (
+            <ThoughtBox backgroundColor={getRandomLightColor(currentMode)}>
+              <div>
+                <strong>{thought.topic}</strong>
+                <p>{thought.content}</p>
+              </div>
+            </ThoughtBox>
+          ) : (
+            searchQuery && <p>No results found</p>
+          )}
         </DialogContent>
       </Dialog>
     </>
