@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import { Box, Button, Container, TextField, Typography, Paper, MenuItem } from "@mui/material";
 import { useFormik } from "formik";
 import Loading from "@/components/loading";
+import { ThoughtDialog } from "@/components/publishedDialogs";
 
 const validationSchema = Yup.object().shape({
   topic: Yup.string().required("Topic is required"),
@@ -15,6 +16,8 @@ const validationSchema = Yup.object().shape({
 const ThoughtsPage = () => {
   const [loading, setLoading] = useState(false);
   const { error, addThought } = useThoughts();
+  const [generatedId, setGeneratedId] = useState<string | null>(null);
+  const [open, setOpen] = useState(false);
 
   const categories = ["Love", "Sad", "Happy", "Bliss", "Neutral"];
 
@@ -28,8 +31,11 @@ const ThoughtsPage = () => {
     onSubmit: async (values, { resetForm }) => {
       setLoading(true);
       try {
-        await new Promise((resolve) => setTimeout(resolve, 3000));
-        await addThought(values);
+        const data = await addThought(values);
+        if (data?.uniqueCode) {
+          setGeneratedId(data.uniqueCode);
+          setOpen(true);
+        }
         resetForm();
       } finally {
         setLoading(false);
@@ -99,6 +105,7 @@ const ThoughtsPage = () => {
             </form>
           </Paper>
         </Box>
+        <ThoughtDialog open={open} onClose={() => setOpen(false)} generatedId={generatedId} />
       </Container>
     </>
   );

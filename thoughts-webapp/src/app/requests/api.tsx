@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { useSnackbar } from "../utils/snackbar";
+import { Dialog, DialogTitle, DialogContent, Typography, IconButton, DialogActions, Button } from "@mui/material";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
 type Thought = {
   //   _id: string;
@@ -14,6 +16,8 @@ export default function useThoughts() {
   const snackbar = useSnackbar();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [open, setOpen] = useState(false);
+  const [generatedId, setGeneratedId] = useState<string | null>(null);
 
   const fetchThoughts = async () => {
     try {
@@ -47,11 +51,11 @@ export default function useThoughts() {
         throw new Error("Failed to add thought");
       }
       const data = await response.json();
-      snackbar.success("Thought added successfully, your id is: " + data.uniqueCode);
-      setError(null);
+      // snackbar.success("Thought added successfully, your id is: " + data.uniqueCode);
       return data;
     } catch (err) {
-      console.error("Error adding thoughts:", err);
+      snackbar.error("Error adding thought: " + err);
+      console.error("Error adding thought:", err);
     }
   };
 
