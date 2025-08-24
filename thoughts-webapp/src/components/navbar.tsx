@@ -63,27 +63,24 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
     setOpenSearch(false);
   };
 
-  useEffect(() => {
+  const handleSearch = async () => {
+    console.log("Searching for:", searchQuery);
     if (searchQuery.trim() === "") {
       setResults([]);
       return;
     }
 
-    const fetchThought = async () => {
-      try {
-        const res = await fetchThoughtById(searchQuery.trim());
-        if (res) {
-          setResults([res]); // wrap in array for easy mapping
-        } else {
-          setResults([]);
-        }
-      } catch (err) {
-        console.error("Error searching thoughts:", err);
+    try {
+      const res = await fetchThoughtById(searchQuery.trim());
+      if (res) {
+        setResults([res]); // wrap in array for easy mapping
+      } else {
+        setResults([]);
       }
-    };
-
-    fetchThought();
-  }, [searchQuery, fetchThoughtById]);
+    } catch (err) {
+      console.error("Error searching thoughts:", err);
+    }
+  };
 
   return (
     <>
@@ -233,7 +230,9 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
               input: {
                 startAdornment: (
                   <InputAdornment position="start">
-                    <SearchIcon />
+                    <Button onClick={handleSearch}>
+                      <SearchIcon />
+                    </Button>
                   </InputAdornment>
                 ),
               },
