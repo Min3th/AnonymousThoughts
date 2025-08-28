@@ -28,6 +28,7 @@ import { useState } from "react";
 import useThoughts from "../app/requests/api";
 import ThoughtBox from "./thoughtbox";
 import { getRandomLightColor } from "./randomColor";
+import { Padding } from "@mui/icons-material";
 
 const Categories = ["Love", "Sad", "Happy", "Bliss"];
 
@@ -102,7 +103,7 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
               {/* <Image src={ThoughtsIcon} alt="Thoughts icon" height={50} /> */}
               ANONYMOUS THOUGHTS
             </Link>
-            <MyBox sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
+            <MyBox sx={{ flexGrow: 1, display: "flex", justifyContent: "center", alignItems: "center", gap: 2 }}>
               <Link href="/" passHref style={{ textDecoration: "none" }}>
                 <Button
                   sx={{
@@ -135,7 +136,7 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
                   PUBLISH
                 </Button>
               </Link>
-              <Link href="/about" passHref style={{ textDecoration: "none" }}>
+              <Link href="/about" passHref style={{ textDecoration: "none", padding: 0, alignItems: "center" }}>
                 <Button
                   sx={{
                     my: 2,
@@ -148,12 +149,13 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
                     },
                   }}
                 >
-                  ABOUT
+                  ABOUT US
                 </Button>
               </Link>
               <Button
                 sx={{
                   my: 2,
+                  lineHeight: 0.5,
                   color: "white",
                   display: "block",
                   transition: "transform 0.1s ease-in-out",

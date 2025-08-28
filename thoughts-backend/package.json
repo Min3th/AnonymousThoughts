@@ -5,7 +5,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsx watch service.ts",
-    "start": "tsx service.ts"
+    "start": "tsx service.ts",
+    "build": "tsc"
   },
   "type": "module",
   "keywords": [],
@@ -20,6 +21,7 @@
     "mongoose": "^8.16.4"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
