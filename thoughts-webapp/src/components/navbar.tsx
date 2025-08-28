@@ -11,6 +11,7 @@ import MyBox from "./box";
 import Link from "next/link";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
+import MenuIcon from "@mui/icons-material/Menu";
 import {
   ClickAwayListener,
   Dialog,
@@ -29,6 +30,7 @@ import useThoughts from "../app/requests/api";
 import ThoughtBox from "./thoughtbox";
 import { getRandomLightColor } from "./randomColor";
 import { Padding } from "@mui/icons-material";
+import Menu from "@mui/material/Menu";
 
 const Categories = ["Love", "Sad", "Happy", "Bliss"];
 
@@ -40,11 +42,16 @@ type ResponsiveAppBarProps = {
 function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
   const theme = useTheme();
   const currentMode = theme.palette.mode;
-  const [anchorElCategories, setAnchorElCategories] = React.useState<null | HTMLElement>(null);
-  const [openSearch, setOpenSearch] = React.useState(false);
-  const [openThought, setOpenThought] = React.useState(false);
+  const [anchorElCategories, setAnchorElCategories] = useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [openSearch, setOpenSearch] = useState(false);
+  const [openThought, setOpenThought] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [thought, setThought] = useState<any | null>();
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
   const { fetchThoughtById } = useThoughts();
 
   const handleOpenCategoriesMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -64,6 +71,9 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
   };
   const handleCloseThought = () => {
     setOpenThought(false);
+  };
+  const handleCloseMobMenu = () => {
+    setAnchorEl(null);
   };
 
   const handleSearch = async () => {
@@ -103,7 +113,15 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
               {/* <Image src={ThoughtsIcon} alt="Thoughts icon" height={50} /> */}
               ANONYMOUS THOUGHTS
             </Link>
-            <MyBox sx={{ flexGrow: 1, display: "flex", justifyContent: "center", alignItems: "center", gap: 2 }}>
+            <MyBox
+              sx={{
+                flexGrow: 1,
+                display: { xs: "none", md: "flex" },
+                justifyContent: "center",
+                alignItems: "center",
+                gap: 2,
+              }}
+            >
               <Link href="/" passHref style={{ textDecoration: "none" }}>
                 <Button
                   sx={{
@@ -218,6 +236,52 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
                 {mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
               </IconButton>
             </MyBox>
+            <MyBox sx={{ marginLeft: "auto", display: { xs: "flex", md: "none" } }}>
+              <IconButton color="inherit" onClick={handleClick}>
+                <MenuIcon />
+              </IconButton>
+            </MyBox>
+            <Menu
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleCloseMobMenu}
+              slotProps={{
+                list: {
+                  "aria-labelledby": "basic-button",
+                },
+              }}
+            >
+              <MenuItem onClick={handleCloseMobMenu}>
+                <Link href="/" passHref style={{ textDecoration: "none", padding: 0, alignItems: "center" }}>
+                  Home
+                </Link>
+              </MenuItem>
+              <MenuItem onClick={handleCloseMobMenu}>
+                {" "}
+                <Link href="/publish" passHref style={{ textDecoration: "none", padding: 0, alignItems: "center" }}>
+                  Publish
+                </Link>
+              </MenuItem>
+              <MenuItem onClick={handleCloseMobMenu}>
+                {" "}
+                <Link href="/about" passHref style={{ textDecoration: "none", padding: 0, alignItems: "center" }}>
+                  About Us
+                </Link>
+              </MenuItem>
+              <MenuItem onClick={handleCloseMobMenu}>
+                {" "}
+                <Link href="/about" passHref style={{ textDecoration: "none", padding: 0, alignItems: "center" }}>
+                  Categories
+                </Link>
+              </MenuItem>
+              <MenuItem onClick={handleCloseMobMenu}>
+                {" "}
+                <Link href="/about" passHref style={{ textDecoration: "none", padding: 0, alignItems: "center" }}>
+                  Search
+                </Link>
+              </MenuItem>
+            </Menu>
           </Toolbar>
         </Container>
       </AppBar>
@@ -274,12 +338,24 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
       >
         <DialogContent sx={{ backgroundColor: "transparent", padding: 0 }}>
           {thought ? (
-            <ThoughtBox backgroundColor={getRandomLightColor(currentMode)}>
+            <MyBox
+              sx={{
+                backgroundColor: getRandomLightColor(currentMode),
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                textAlign: "center",
+                borderRadius: 2,
+                p: 2,
+                boxShadow: 2,
+                width: "100%",
+              }}
+            >
               <div>
                 <strong>{thought.topic}</strong>
                 <p>{thought.content}</p>
               </div>
-            </ThoughtBox>
+            </MyBox>
           ) : (
             searchQuery && <p>No results found</p>
           )}
