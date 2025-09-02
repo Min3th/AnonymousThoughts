@@ -35,7 +35,7 @@ export default function Home() {
           fontWeight: 500,
           textAlign: "center",
           mt: 8,
-          mb: 8,
+          mb: 30,
         }}
       >
         Dive into the thoughts of fellow humans...

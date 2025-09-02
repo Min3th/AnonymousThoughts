@@ -278,7 +278,7 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
               <MenuItem onClick={handleCloseMobMenu}>
                 {" "}
                 <Link href="/about" passHref style={{ textDecoration: "none", padding: 0, alignItems: "center" }}>
-                  Search
+                  Search a thought with ID
                 </Link>
               </MenuItem>
             </Menu>
@@ -304,7 +304,7 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
             autoFocus
             margin="dense"
             fullWidth
-            placeholder="Search..."
+            placeholder="Search a thought by ID"
             variant="outlined"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
