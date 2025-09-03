@@ -5,6 +5,7 @@ import useThoughts from "./requests/api";
 import { useEffect, useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import { getRandomLightColor } from "@/components/randomColor";
+import Modal from "@mui/material/Modal";
 
 type Thought = {
   _id: string;
@@ -17,6 +18,8 @@ export default function Home() {
   const theme = useTheme();
   const currentMode = theme.palette.mode;
   const [thoughtContent, setThoughtContent] = useState<Thought[]>([]);
+  const [selectedThought, setSelectedThought] = useState<Thought | null>(null);
+
   const { fetchThoughts } = useThoughts();
   useEffect(() => {
     const loadThoughts = async () => {
@@ -64,7 +67,9 @@ export default function Home() {
                 breakInside: "avoid",
                 mb: 2,
                 width: "100%",
+                cursor: "pointer",
               }}
+              onClick={() => setSelectedThought(thought)}
             >
               <ThoughtBox backgroundColor={getRandomLightColor(currentMode)}>
                 <div>
@@ -76,6 +81,38 @@ export default function Home() {
           ))}
         </MyBox>
       </MyBox>
+      <Modal
+        open={!!selectedThought}
+        onClose={() => setSelectedThought(null)}
+        aria-labelledby="thought-modal-title"
+        aria-describedby="thought-modal-description"
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <MyBox
+          sx={{
+            bgcolor: getRandomLightColor(currentMode),
+            p: 4,
+            borderRadius: 1,
+            boxShadow: 24,
+            borderColor: getRandomLightColor(currentMode),
+            maxWidth: "600px",
+            width: "90%",
+            textAlign: "center",
+            border: "0 px",
+          }}
+        >
+          {selectedThought && (
+            <>
+              <h2 id="thought-modal-title">{selectedThought.topic}</h2>
+              <p id="thought-modal-description">{selectedThought.content}</p>
+            </>
+          )}
+        </MyBox>
+      </Modal>
     </MyBox>
   );
 }
