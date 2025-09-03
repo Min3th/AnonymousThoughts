@@ -63,6 +63,7 @@ export default function Home() {
               sx={{
                 breakInside: "avoid",
                 mb: 2,
+                width: "100%",
               }}
             >
               <ThoughtBox backgroundColor={getRandomLightColor(currentMode)}>

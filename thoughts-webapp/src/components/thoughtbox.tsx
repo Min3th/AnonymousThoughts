@@ -15,7 +15,7 @@ const ThoughtBox = ({ children, backgroundColor }: ThoughtBoxProps) => {
         alignItems: "center",
         justifyContent: "center",
         textAlign: "center",
-        borderRadius: 2,
+        borderRadius: 1,
         p: 2,
         boxShadow: 2,
         width: "100%",
