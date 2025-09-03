@@ -78,7 +78,7 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
 
   const handleSearch = async () => {
     if (searchQuery.trim() === "") {
-      setThought([]);
+      setThought(null);
       return;
     }
 
@@ -93,9 +93,11 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
       }
     } catch (err) {
       console.error("Error searching thoughts:", err);
+      setThought(null);
     }
   };
 
+  console.log("Thought fetched:", thought);
   return (
     <>
       <AppBar
@@ -357,7 +359,21 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
               </div>
             </MyBox>
           ) : (
-            searchQuery && <p>No results found</p>
+            <MyBox
+              sx={{
+                backgroundColor: getRandomLightColor(currentMode),
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                textAlign: "center",
+                borderRadius: 2,
+                p: 2,
+                boxShadow: 2,
+                width: "100%",
+              }}
+            >
+              <div>Thoughts not found</div>
+            </MyBox>
           )}
         </DialogContent>
       </Dialog>
