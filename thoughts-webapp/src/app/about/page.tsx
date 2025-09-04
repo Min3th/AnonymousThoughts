@@ -1,5 +1,4 @@
 // pages/about.tsx
-
 import Head from "next/head";
 import { NextPage } from "next";
 

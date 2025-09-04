@@ -1,11 +1,7 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
-import ResponsiveAppBar from "@/components/navbar";
 import Footer from "@/components/footer";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
 import ThemeRegistry from "./ThemeRegistry";
 
 export const metadata: Metadata = {

@@ -12,8 +12,6 @@ export async function addCreatedAtToExistingThoughts(): Promise<void> {
     const result = await Thought.updateMany({ createdAt: { $exists: false } }, [
       { $set: { createdAt: { $toDate: "$_id" } } },
     ]);
-
-    console.log(`Matched ${result.matchedCount}, modified ${result.modifiedCount} thoughts with createdAt`);
   } catch (err) {
     console.error("Error updating thoughts:", err);
   }

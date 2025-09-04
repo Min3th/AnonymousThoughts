@@ -27,9 +27,7 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import { useState } from "react";
 import useThoughts from "../app/requests/api";
-import ThoughtBox from "./thoughtbox";
 import { getRandomLightColor } from "./randomColor";
-import { Padding } from "@mui/icons-material";
 import Menu from "@mui/material/Menu";
 import Image from "next/image";
 import NoResults from "../../public/images/noresults.png";
@@ -103,18 +101,16 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
         setThought(null);
         setOpenSearch(false);
         setOpenThought(true);
-        console.log("I am in else");
       }
     } catch (err) {
       console.error("Error searching thoughts:", err);
-      console.log("I am in catch");
+
       setThought(null);
       setOpenSearch(false);
       setOpenThought(true);
     }
   };
 
-  console.log("Thought fetched:", thought);
   return (
     <>
       <AppBar
@@ -306,8 +302,25 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
                 anchorEl={anchorElSubMenu}
                 open={openSubMenu}
                 onClose={handleCloseSubMenu}
-                anchorOrigin={{ vertical: "top", horizontal: "right" }}
-                transformOrigin={{ vertical: "top", horizontal: "left" }}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                slotProps={{
+                  paper: {
+                    sx: {
+                      mt: -1,
+                      mr: 1,
+                    },
+                  },
+                }}
+                sx={{
+                  marginRight: 14,
+                }}
               >
                 {Categories.map((category) => (
                   <MenuItem key={category} onClick={handleCloseSubMenu}>

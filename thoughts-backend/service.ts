@@ -11,6 +11,4 @@ app.use(cors());
 app.use(express.json());
 app.use("/api/thoughts", thoughtRoutes);
 
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
+app.listen(port, () => {});

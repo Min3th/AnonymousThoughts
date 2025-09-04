@@ -35,7 +35,6 @@ function isGibberish(text: string): boolean {
 // function to moderate content (gibberish detection + harmful content detection)
 export async function moderateContent(title: string, content: string): Promise<ModerationResult> {
   const combined = `${title}\n\n${content}`;
-  console.log("Combined text for moderation:", combined);
 
   if (isGibberish(combined)) {
     return {
@@ -50,7 +49,6 @@ export async function moderateContent(title: string, content: string): Promise<M
     inputs: combined,
   });
 
-  console.log("HF result:", hfResult);
   let category = "CLEAN";
   const highest = hfResult.reduce((prev, current) => {
     return current.score > prev.score ? current : prev;
