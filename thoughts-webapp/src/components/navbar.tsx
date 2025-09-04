@@ -46,6 +46,14 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
   const currentMode = theme.palette.mode;
   const [anchorElCategories, setAnchorElCategories] = useState<null | HTMLElement>(null);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [anchorElSubMenu, setAnchorElSubMenu] = useState<null | HTMLElement>(null);
+  const openSubMenu = Boolean(anchorElSubMenu);
+  const handleOpenSubMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElSubMenu(event.currentTarget);
+  };
+  const handleCloseSubMenu = () => {
+    setAnchorElSubMenu(null);
+  };
   const [openSearch, setOpenSearch] = useState(false);
   const [openThought, setOpenThought] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -212,6 +220,7 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
               >
                 <SearchIcon />
               </Button>
+              {/* Mobile view hamburger */}
               <Popper
                 open={Boolean(anchorElCategories)}
                 anchorEl={anchorElCategories}
@@ -264,33 +273,68 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
               }}
             >
               <MenuItem onClick={handleCloseMobMenu}>
-                <Link href="/" passHref style={{ textDecoration: "none", padding: 0, alignItems: "center" }}>
+                <Link
+                  href="/"
+                  passHref
+                  style={{ textDecoration: "none", padding: 0, alignItems: "center", color: "white" }}
+                >
                   Home
                 </Link>
               </MenuItem>
               <MenuItem onClick={handleCloseMobMenu}>
                 {" "}
-                <Link href="/publish" passHref style={{ textDecoration: "none", padding: 0, alignItems: "center" }}>
+                <Link
+                  href="/publish"
+                  passHref
+                  style={{ textDecoration: "none", padding: 0, alignItems: "center", color: "white" }}
+                >
                   Publish
                 </Link>
               </MenuItem>
               <MenuItem onClick={handleCloseMobMenu}>
                 {" "}
-                <Link href="/about" passHref style={{ textDecoration: "none", padding: 0, alignItems: "center" }}>
+                <Link
+                  href="/about"
+                  passHref
+                  style={{ textDecoration: "none", padding: 0, alignItems: "center", color: "white" }}
+                >
                   About Us
                 </Link>
               </MenuItem>
-              <MenuItem onClick={handleCloseMobMenu}>
+              <MenuItem onClick={handleOpenSubMenu}>Categories</MenuItem>
+              <Menu
+                anchorEl={anchorElSubMenu}
+                open={openSubMenu}
+                onClose={handleCloseSubMenu}
+                anchorOrigin={{ vertical: "top", horizontal: "right" }}
+                transformOrigin={{ vertical: "top", horizontal: "left" }}
+              >
+                {Categories.map((category) => (
+                  <MenuItem key={category} onClick={handleCloseSubMenu}>
+                    <Link
+                      href={`/${category.toLowerCase()}`}
+                      passHref
+                      style={{ textDecoration: "none", color: "inherit" }}
+                    >
+                      {category}
+                    </Link>
+                  </MenuItem>
+                ))}
+              </Menu>
+              <MenuItem onClick={handleOpenSubMenu}>
                 {" "}
-                <Link href="/about" passHref style={{ textDecoration: "none", padding: 0, alignItems: "center" }}>
-                  Categories
-                </Link>
-              </MenuItem>
-              <MenuItem onClick={handleCloseMobMenu}>
-                {" "}
-                <Link href="/about" passHref style={{ textDecoration: "none", padding: 0, alignItems: "center" }}>
+                <Button
+                  sx={{
+                    textTransform: "none", // stops auto-uppercase
+                    color: "white",
+                    padding: 0,
+                    alignItems: "center",
+                    marginLeft: -1,
+                  }}
+                  onClick={handleOpenSearch}
+                >
                   Search
-                </Link>
+                </Button>
               </MenuItem>
             </Menu>
           </Toolbar>
