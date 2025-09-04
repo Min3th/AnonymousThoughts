@@ -31,6 +31,8 @@ import ThoughtBox from "./thoughtbox";
 import { getRandomLightColor } from "./randomColor";
 import { Padding } from "@mui/icons-material";
 import Menu from "@mui/material/Menu";
+import Image from "next/image";
+import NoResults from "../../public/images/noresults.png";
 
 const Categories = ["Love", "Sad", "Happy", "Bliss"];
 
@@ -71,6 +73,7 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
   };
   const handleCloseThought = () => {
     setOpenThought(false);
+    setOpenSearch(true);
   };
   const handleCloseMobMenu = () => {
     setAnchorEl(null);
@@ -90,10 +93,16 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
         setOpenThought(true);
       } else {
         setThought(null);
+        setOpenSearch(false);
+        setOpenThought(true);
+        console.log("I am in else");
       }
     } catch (err) {
       console.error("Error searching thoughts:", err);
+      console.log("I am in catch");
       setThought(null);
+      setOpenSearch(false);
+      setOpenThought(true);
     }
   };
 
@@ -336,7 +345,13 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
             },
           },
         }}
-        sx={{ backgroundColor: "transparent", padding: 0 }}
+        sx={{
+          backgroundColor: "transparent",
+          padding: 0,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
       >
         <DialogContent sx={{ backgroundColor: "transparent", padding: 0 }}>
           {thought ? (
@@ -361,8 +376,9 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
           ) : (
             <MyBox
               sx={{
-                backgroundColor: getRandomLightColor(currentMode),
+                backgroundColor: "grey",
                 display: "flex",
+                flexDirection: "column",
                 alignItems: "center",
                 justifyContent: "center",
                 textAlign: "center",
@@ -372,7 +388,11 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
                 width: "100%",
               }}
             >
-              <div>Thoughts not found</div>
+              <strong>Thought not found</strong>
+              <Image src={NoResults} width={500} height={500} alt="No results" />
+              <Button onClick={handleCloseThought} sx={{ marginLeft: 2, color: "white" }}>
+                Search Again
+              </Button>
             </MyBox>
           )}
         </DialogContent>
