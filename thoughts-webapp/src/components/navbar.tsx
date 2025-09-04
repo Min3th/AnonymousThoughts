@@ -389,8 +389,12 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
               }}
             >
               <strong>Thought not found</strong>
-              <Image src={NoResults} width={500} height={500} alt="No results" />
-              <Button onClick={handleCloseThought} sx={{ marginLeft: 2, color: "white" }}>
+              <Image src={NoResults} width={300} height={300} alt="No results" />
+              <Button
+                variant="contained"
+                onClick={handleCloseThought}
+                sx={{ marginLeft: 2, backgroundColor: "#5ef45eff" }}
+              >
                 Search Again
               </Button>
             </MyBox>
