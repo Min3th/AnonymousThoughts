@@ -1,12 +1,17 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useSnackbar } from "../utils/snackbar";
+import { string } from "yup";
 
 type Thought = {
   //   _id: string;
   topic: string;
   content: string;
   category: string;
+};
+
+type Category = {
+  name: string;
 };
 
 export default function useThoughts() {
@@ -65,8 +70,20 @@ export default function useThoughts() {
       console.error("Error adding thought:", err);
     }
   };
+  const fetchCategories = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/api/categories");
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      return data;
+    } catch (err) {
+      console.error("Error fetching categories:", err);
+    }
+  };
 
-  const fetchCategory = async (category = "Love") => {
+  const fetchCategory = async (category: string) => {
     const res = await fetch(`http://localhost:8080/api/thoughts?category=${category}`);
     return await res.json();
   };
@@ -75,5 +92,5 @@ export default function useThoughts() {
     fetchThoughts();
   }, []);
 
-  return { loading, error, addThought, fetchThoughts, fetchCategory, fetchThoughtById };
+  return { loading, error, addThought, fetchThoughts, fetchCategory, fetchThoughtById, fetchCategories };
 }

@@ -25,14 +25,12 @@ import {
   useTheme,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useThoughts from "../app/requests/api";
 import { getRandomLightColor } from "./randomColor";
 import Menu from "@mui/material/Menu";
 import Image from "next/image";
 import NoResults from "../../public/images/noresults.png";
-
-const Categories = ["Love", "Sad", "Happy", "Bliss"];
 
 type ResponsiveAppBarProps = {
   toggleTheme: () => void;
@@ -52,6 +50,8 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
   const handleCloseSubMenu = () => {
     setAnchorElSubMenu(null);
   };
+
+  const [categories, setCategories] = useState<string[]>([]);
   const [openSearch, setOpenSearch] = useState(false);
   const [openThought, setOpenThought] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -60,7 +60,11 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
-  const { fetchThoughtById } = useThoughts();
+  const { fetchThoughtById, fetchCategories } = useThoughts();
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
 
   const handleOpenCategoriesMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElCategories(event.currentTarget);
@@ -229,7 +233,7 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
                     <Paper sx={{ mt: 1, backgroundColor: "#1a1a2e", color: "#fff", minWidth: 160 }}>
                       <ClickAwayListener onClickAway={handleCloseCategoriesMenu}>
                         <MenuList autoFocusItem={Boolean(anchorElCategories)}>
-                          {Categories.map((category) => (
+                          {categories.map((category) => (
                             <MenuItem key={category} onClick={handleCloseCategoriesMenu}>
                               <Link
                                 href={`/${category.toLowerCase()}`}
@@ -322,7 +326,7 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
                   marginRight: 14,
                 }}
               >
-                {Categories.map((category) => (
+                {categories.map((category) => (
                   <MenuItem key={category} onClick={handleCloseSubMenu}>
                     <Link
                       href={`/${category.toLowerCase()}`}
