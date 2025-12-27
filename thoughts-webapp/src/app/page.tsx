@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import { getRandomLightColor } from "@/components/randomColor";
 import Modal from "@mui/material/Modal";
+import Image from "next/image";
+import ThoughtsImg from "../../public/images/thinking.png";
 
 type Thought = {
   _id: string;
@@ -33,15 +35,26 @@ export default function Home() {
     <MyBox sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
       <MyBox
         sx={{
-          fontSize: "1.5rem",
-          fontFamily: "Georgia, serif",
-          fontWeight: 500,
-          textAlign: "center",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 2,
           mt: 8,
           mb: 30,
+          textAlign: "center",
         }}
       >
-        Dive into the thoughts of fellow humans...
+        <Image src={ThoughtsImg} alt="Thoughts" width={400} height={400} />
+
+        <MyBox
+          sx={{
+            fontSize: "1.5rem",
+            fontFamily: "Georgia, serif",
+            fontWeight: 500,
+          }}
+        >
+          Dive into the thoughts of fellow humans. Share your own and see what others are thinking!
+        </MyBox>
       </MyBox>
       <MyBox
         sx={{
