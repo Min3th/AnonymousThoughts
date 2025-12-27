@@ -77,6 +77,7 @@ export default function useThoughts() {
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
+      console.log("FETCHED CATEGORIES", data);
       return data;
     } catch (err) {
       console.error("Error fetching categories:", err);

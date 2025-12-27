@@ -63,7 +63,14 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
   const { fetchThoughtById, fetchCategories } = useThoughts();
 
   useEffect(() => {
-    fetchCategories();
+    const loadCategories = async () => {
+      const data = await fetchCategories();
+      if (data) {
+        setCategories(data.map((c: any) => c.name));
+      }
+    };
+
+    loadCategories();
   }, []);
 
   const handleOpenCategoriesMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -88,6 +95,8 @@ function ResponsiveAppBar({ toggleTheme, mode }: ResponsiveAppBarProps) {
   const handleCloseMobMenu = () => {
     setAnchorEl(null);
   };
+
+  console.log("CATEGORIES", categories);
 
   const handleSearch = async () => {
     if (searchQuery.trim() === "") {
